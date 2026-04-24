@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="600.0" prefWidth="850.0"
+            style="-fx-background-color: #0F0F0F;"
+            stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/8"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="com.seuprojeto.LoginController">
+
+    <children>
+        <VBox alignment="CENTER" spacing="30.0"
+              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
+              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+            <children>
+
+                <VBox alignment="CENTER" spacing="8.0">
+                    <children>
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="IN-FINITY TECH">
+                            <font>
+                                <Font name="System Bold" size="28.0" />
+                            </font>
+                        </Text>
+                        <Line endX="120.0" stroke="#d4af37" strokeWidth="0.5" />
+                        <Text fill="#d4af37" strokeType="OUTSIDE" strokeWidth="0.0" text="• LOGIN DO SISTEMA •">
+                            <font>
+                                <Font size="11.0" />
+                            </font>
+                        </Text>
+                    </children>
+                </VBox>
+
+                <VBox alignment="CENTER" maxWidth="380.0" spacing="15.0">
+                    <children>
+                        <TextField promptText="NOME DE USUÁRIO" styleClass="login-input" />
+
+                        <PasswordField promptText="SENHA" styleClass="login-input" />
+
+                        <Button maxWidth="Infinity" mnemonicParsing="false" prefHeight="45.0"
+                                styleClass="login-button" text="ENTRAR" />
+                    </children>
+                </VBox>
+
+                <VBox alignment="CENTER" spacing="5.0">
+                    <children>
+                        <Hyperlink text="Esqueceu a senha?" styleClass="forgot-link" />
+                        <Hyperlink text="Criar uma conta" styleClass="forgot-link" />
+                    </children>
+                </VBox>
+
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>
