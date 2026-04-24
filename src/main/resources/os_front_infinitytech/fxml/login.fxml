@@ -1,26 +1,24 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="600.0" prefWidth="850.0"
-            style="-fx-background-color: #0F0F0F;"
-            stylesheets="@../css/style.css"
-            xmlns="http://javafx.com/javafx/8"
-            xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="com.seuprojeto.LoginController">
+<AnchorPane prefHeight="600.0" prefWidth="850.0" style="-fx-background-color: #0F0F0F;" stylesheets="@../css/style.css" xmlns="http://javafx.com/javafx/25" xmlns:fx="http://javafx.com/fxml/1" fx:controller="os.infinitytech.os_front_infinitytech.controller.HelloController">
 
     <children>
-        <VBox alignment="CENTER" spacing="30.0"
-              AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
-              AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox alignment="CENTER" spacing="30.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
             <children>
 
                 <VBox alignment="CENTER" spacing="8.0">
                     <children>
-                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="IN-FINITY TECH">
+                        <Text fill="WHITE" strokeType="OUTSIDE" strokeWidth="0.0" text="INFINITY TECH">
                             <font>
                                 <Font name="System Bold" size="28.0" />
                             </font>
@@ -40,15 +38,14 @@
 
                         <PasswordField promptText="SENHA" styleClass="login-input" />
 
-                        <Button maxWidth="Infinity" mnemonicParsing="false" prefHeight="45.0"
-                                styleClass="login-button" text="ENTRAR" />
+                        <Button maxWidth="Infinity" mnemonicParsing="false" prefHeight="45.0" styleClass="login-button" text="ENTRAR" />
                     </children>
                 </VBox>
 
                 <VBox alignment="CENTER" spacing="5.0">
                     <children>
-                        <Hyperlink text="Esqueceu a senha?" styleClass="forgot-link" />
-                        <Hyperlink text="Criar uma conta" styleClass="forgot-link" />
+                        <Hyperlink styleClass="forgot-link" text="Esqueceu a senha?" />
+                        <Hyperlink styleClass="forgot-link" text="Criar uma conta" />
                     </children>
                 </VBox>
 

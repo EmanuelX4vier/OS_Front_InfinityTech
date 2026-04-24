@@ -11,7 +11,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Carrega o arquivo FXML
-        Parent root = FXMLLoader.load(getClass().getResource("login_screen.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/os_front_infinitytech/fxml/login.fxml"));
 
         // Cria a cena
         Scene scene = new Scene(root);
