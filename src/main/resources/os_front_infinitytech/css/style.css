@@ -1,0 +1,51 @@
+/* Fundo Principal com Imagem */
+.main-background {
+    -fx-background-color: #0F0F0F; /* Cor de fallback caso a imagem falhe */
+    -fx-background-image: url("../image/default.png"); /* Nome da sua imagem */
+    -fx-background-size: cover;
+    -fx-background-position: center;
+    -fx-background-repeat: no-repeat;
+}
+
+/* Campos de entrada (User e Password) */
+.login-input {
+
+    -fx-alignment: center;
+    -fx-background-color: rgba(30, 30, 30, 0.8);
+    -fx-background-radius: 10;
+    -fx-border-color: rgba(212, 175, 55, 0.3);
+    -fx-border-radius: 10;
+    -fx-text-fill: white;
+    -fx-padding: 12;
+}
+
+.login-input:focused {
+    -fx-border-color: #d4af37;
+    -fx-effect: dropshadow(gaussian, rgba(212, 175, 55, 0.3), 10, 0, 0, 0);
+}
+
+/* Botão de Login Estilizado */
+.login-button {
+    -fx-background-color: linear-gradient(to bottom right, #1a1a1a, #000000);
+    -fx-text-fill: #d4af37;
+    -fx-border-color: #d4af37;
+    -fx-border-radius: 8;
+    -fx-background-radius: 8;
+    -fx-font-weight: bold;
+    -fx-cursor: hand;
+}
+
+.login-button:hover {
+    -fx-background-color: #d4af37;
+    -fx-text-fill: black;
+}
+
+/* Links */
+.forgot-link {
+    -fx-text-fill: #d4af37;
+    -fx-underline: false;
+}
+
+.forgot-link:hover {
+    -fx-text-fill: white;
+}
