@@ -22,7 +22,7 @@ public class Application extends javafx.application.Application {
 
         // Opcional: Remove a barra de tarefas padrão do Windows para um visual mais limpo (opcional)
         //
-        // stage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UNDECORATED);
 
         stage.setScene(scene);
         stage.setResizable(true);

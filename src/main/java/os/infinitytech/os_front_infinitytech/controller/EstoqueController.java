@@ -13,6 +13,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import os.infinitytech.os_front_infinitytech.config.Session;
 import os.infinitytech.os_front_infinitytech.model.ProduModel;
@@ -101,6 +102,37 @@ public class EstoqueController {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    private void handleAtualizar(ActionEvent event){
+        carregarDados();
+    }
+
+    @FXML
+    private void handleAdicionar(ActionEvent event){
+        try {
+            // Carrega o FXML do popup
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialogProdu.fxml"));
+            Parent root = loader.load();
+
+            // Cria o novo Stage (janela)
+            Stage stage = new Stage();
+            stage.setTitle("Adicionar Novo Produto");
+
+            // Define como MODAL (bloqueia a janela de trás até fechar esta)
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+            stage.showAndWait();
+
+            // Aqui você pode chamar um método para atualizar a tabela após fechar o popup
+            // atualizarTabela();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            // Adicione um alerta de erro aqui se desejar
         }
     }
 }
