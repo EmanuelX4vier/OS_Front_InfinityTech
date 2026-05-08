@@ -62,7 +62,8 @@
                                 onAction="#handleLogin"
                                 prefHeight="45.0"
                                 styleClass="login-button"
-                                text="ENTRAR" />
+                                text="ENTRAR"
+                                defaultButton="true" />
                     </children>
                 </VBox>
 

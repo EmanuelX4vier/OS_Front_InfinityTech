@@ -1,7 +1,7 @@
 /* Fundo Principal com Imagem */
 .main-background {
-    -fx-background-color: #0F0F0F; /* Cor de fallback caso a imagem falhe */
-    -fx-background-image: url("../image/default.png"); /* Nome da sua imagem */
+    -fx-background-color: #0F0F0F;
+    -fx-background-image: url("../image/default.png");
     -fx-background-size: cover;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
@@ -9,7 +9,6 @@
 
 /* Campos de entrada (User e Password) */
 .login-input {
-
     -fx-alignment: center;
     -fx-background-color: rgba(30, 30, 30, 0.8);
     -fx-background-radius: 10;
@@ -48,4 +47,56 @@
 
 .forgot-link:hover {
     -fx-text-fill: white;
+}
+
+/* --- CORREÇÃO DA TABELA (MODERN TABLE) --- */
+
+/* Remove o fundo padrão branco da tabela para não dar conflito com o seu fundo */
+.modern-table {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(212, 175, 55, 0.5);
+    -fx-border-radius: 5;
+}
+
+/* Garante que o texto de TODAS as células seja branco e visível IMEDIATAMENTE */
+.modern-table .table-cell {
+    -fx-text-fill: white !important;
+    -fx-padding: 10;
+}
+
+/* Estilo para as linhas da tabela */
+.modern-table .table-row-cell {
+    -fx-background-color: rgba(40, 40, 40, 0.7);
+    -fx-border-color: transparent transparent rgba(212, 175, 55, 0.1) transparent;
+}
+
+/* Cor da linha quando você passa o mouse */
+.modern-table .table-row-cell:hover {
+    -fx-background-color: rgba(212, 175, 55, 0.2);
+}
+
+/* Cor da linha quando está selecionada (clicada) */
+.modern-table .table-row-cell:selected {
+    -fx-background-color: #d4af37;
+}
+
+/* Garante que o texto fique preto quando a linha estiver selecionada (fundo dourado) */
+.modern-table .table-row-cell:selected .table-cell {
+    -fx-text-fill: black !important;
+}
+
+/* Estilo do cabeçalho da tabela */
+.modern-table .column-header {
+    -fx-background-color: linear-gradient(to bottom, #333333, #1a1a1a);
+    -fx-border-color: rgba(212, 175, 55, 0.3);
+}
+
+.modern-table .column-header .label {
+    -fx-text-fill: #d4af37;
+    -fx-font-weight: bold;
+}
+
+/* Centralização */
+.coluna-centralizada {
+    -fx-alignment: CENTER;
 }

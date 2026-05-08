@@ -13,8 +13,7 @@ public class AuthService {
 
     private final String baseUrl;
     private final HttpClient client;
-
-    private String authorizationHeader;
+    private String authorizationHeader; // Armazena o token da sessão
 
     public AuthService(String baseUrl) {
         this.baseUrl = baseUrl;
@@ -22,18 +21,16 @@ public class AuthService {
     }
 
     public LoginResult login(String username, String password) {
-
         try {
             String auth = username + ":" + password;
-
             String encodedAuth = Base64.getEncoder()
                     .encodeToString(auth.getBytes(StandardCharsets.UTF_8));
 
-            String authorizationHeader = "Basic " + encodedAuth;
+            String header = "Basic " + encodedAuth;
 
             HttpRequest request = HttpRequest.newBuilder()
                     .uri(URI.create(baseUrl + "/users/auth/check"))
-                    .header("Authorization", authorizationHeader)
+                    .header("Authorization", header)
                     .GET()
                     .build();
 
@@ -42,23 +39,17 @@ public class AuthService {
 
             int status = response.statusCode();
 
-            System.out.println("STATUS LOGIN: " + response.statusCode());
-            System.out.println("BODY: " + response.body());
-
             if (status == 200) {
-                this.authorizationHeader = authorizationHeader;
+                this.authorizationHeader = header; // Guarda o cabeçalho para uso futuro
                 return new LoginResult(true, "Login realizado com sucesso", status);
             } else if (status == 401) {
                 return new LoginResult(false, "Usuário ou senha inválidos", status);
-            } else if (status == 403) {
-                return new LoginResult(false, "Acesso negado", status);
             } else {
-                return new LoginResult(false, "Erro inesperado no servidor", status);
+                return new LoginResult(false, "Erro no servidor: " + status, status);
             }
 
         } catch (Exception e) {
-            e.printStackTrace();
-            return new LoginResult(false, "Erro de conexão com o servidor", -1);
+            return new LoginResult(false, "Erro de conexão: " + e.getMessage(), -1);
         }
     }
 
@@ -72,5 +63,20 @@ public class AuthService {
 
     public void logout() {
         this.authorizationHeader = null;
+    }
+
+    public String buscarProdutos() throws Exception {
+        if (authorizationHeader == null) throw new IllegalStateException("Não autenticado");
+
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(baseUrl + "/products?size=100")) // size=100 para trazer mais itens que o padrão 20
+                .header("Authorization", authorizationHeader)
+                .GET()
+                .build();
+
+        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        if (response.statusCode() == 200) return response.body();
+        throw new Exception("Erro ao buscar dados: " + response.statusCode());
     }
 }

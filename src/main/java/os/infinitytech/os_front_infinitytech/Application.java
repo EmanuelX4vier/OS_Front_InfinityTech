@@ -4,6 +4,8 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
 
 public class Application extends javafx.application.Application {
@@ -16,13 +18,13 @@ public class Application extends javafx.application.Application {
         Scene scene = new Scene(root);
 
         // Configurações da Janela
-        stage.setTitle("In-finity Tech - Login");
+        stage.setTitle("Infinity Tech - Login");
 
         // Opcional: Remove a barra de tarefas padrão do Windows para um visual mais limpo (opcional)
-        // primaryStage.initStyle(StageStyle.UNDECORATED);
+        //stage.initStyle(StageStyle.UNDECORATED);
 
         stage.setScene(scene);
-        stage.setResizable(false); // Mantém o layout fixo como no design
+        stage.setResizable(true);
         stage.show();
     }
 }
