@@ -31,6 +31,7 @@ public class EstoqueController {
     @FXML private TableColumn<ProduModel, String> colNome;
     @FXML private TableColumn<ProduModel, String> colMarca;
     @FXML private TableColumn<ProduModel, String> colStatus;
+    @FXML private TableColumn<ProduModel, String> colQuantidade;
 
     @FXML
     public void initialize() {
@@ -39,6 +40,7 @@ public class EstoqueController {
         colNome.setCellValueFactory(new PropertyValueFactory<>("nome"));
         colMarca.setCellValueFactory(new PropertyValueFactory<>("marca"));
         colStatus.setCellValueFactory(new PropertyValueFactory<>("status"));
+        colQuantidade.setCellValueFactory(cellData -> cellData.getValue().quantidadeProperty());
 
         carregarDados();
     }

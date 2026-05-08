@@ -23,7 +23,7 @@
     -fx-effect: dropshadow(gaussian, rgba(212, 175, 55, 0.3), 10, 0, 0, 0);
 }
 
-/* Botão de Login Estilizado */
+/* Botão Estilizado (Login e Voltar) */
 .login-button {
     -fx-background-color: linear-gradient(to bottom right, #1a1a1a, #000000);
     -fx-text-fill: #d4af37;
@@ -49,54 +49,62 @@
     -fx-text-fill: white;
 }
 
-/* --- CORREÇÃO DA TABELA (MODERN TABLE) --- */
+/* --- ESTILIZAÇÃO DA TABELA --- */
 
-/* Remove o fundo padrão branco da tabela para não dar conflito com o seu fundo */
 .modern-table {
     -fx-background-color: transparent;
-    -fx-border-color: rgba(212, 175, 55, 0.5);
+    -fx-background-insets: 0;
+    -fx-border-color: rgba(212, 175, 55, 0.3);
     -fx-border-radius: 5;
 }
 
-/* Garante que o texto de TODAS as células seja branco e visível IMEDIATAMENTE */
+/* Força a cor do texto para Branco em todas as células */
 .modern-table .table-cell {
     -fx-text-fill: white !important;
+    -fx-alignment: CENTER_LEFT;
     -fx-padding: 10;
+    -fx-font-size: 13px;
 }
 
-/* Estilo para as linhas da tabela */
+/* Estilo das Linhas */
 .modern-table .table-row-cell {
-    -fx-background-color: rgba(40, 40, 40, 0.7);
+    -fx-background-color: rgba(30, 30, 30, 0.6);
     -fx-border-color: transparent transparent rgba(212, 175, 55, 0.1) transparent;
 }
 
-/* Cor da linha quando você passa o mouse */
+/* Hover e Seleção */
 .modern-table .table-row-cell:hover {
-    -fx-background-color: rgba(212, 175, 55, 0.2);
+    -fx-background-color: rgba(212, 175, 55, 0.15);
 }
 
-/* Cor da linha quando está selecionada (clicada) */
 .modern-table .table-row-cell:selected {
     -fx-background-color: #d4af37;
 }
 
-/* Garante que o texto fique preto quando a linha estiver selecionada (fundo dourado) */
+/* Inverte cor do texto na linha selecionada para dar contraste */
 .modern-table .table-row-cell:selected .table-cell {
     -fx-text-fill: black !important;
 }
 
-/* Estilo do cabeçalho da tabela */
+/* Cabeçalho da Tabela */
 .modern-table .column-header {
-    -fx-background-color: linear-gradient(to bottom, #333333, #1a1a1a);
-    -fx-border-color: rgba(212, 175, 55, 0.3);
+    -fx-background-color: linear-gradient(to bottom, #2a2a2a, #0f0f0f);
+    -fx-border-color: rgba(212, 175, 55, 0.2);
+    -fx-size: 40;
 }
 
 .modern-table .column-header .label {
     -fx-text-fill: #d4af37;
     -fx-font-weight: bold;
+    -fx-alignment: CENTER_LEFT;
 }
 
-/* Centralização */
+/* Remove fundo branco dos cantos da tabela */
+.modern-table .corner {
+    -fx-background-color: transparent;
+}
+
+/* Centralização para colunas específicas (como QTD) */
 .coluna-centralizada {
     -fx-alignment: CENTER;
 }
