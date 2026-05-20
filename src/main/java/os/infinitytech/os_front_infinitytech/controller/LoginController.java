@@ -6,70 +6,87 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Label;
-import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
-import os.infinitytech.os_front_infinitytech.config.AppConfig;
-import os.infinitytech.os_front_infinitytech.config.LoginResult;
-import os.infinitytech.os_front_infinitytech.service.AuthService;
+import os.infinitytech.os_front_infinitytech.auth.AuthService;
 
 import java.io.IOException;
 import java.net.URL;
 
 public class LoginController {
 
+    @FXML private TextField emailField;
+    @FXML private PasswordField passwordField;
+    @FXML private Label lblMensagem;
+
+    private final AuthService authService = new AuthService();
+
+    // 🔐 LOGIN
     @FXML
-    private TextField txtUsername;
+    public void onLogin() {
 
-    @FXML
-    private PasswordField txtPassword;
+        lblMensagem.setText("Entrando...");
+        lblMensagem.setStyle("-fx-text-fill: white;");
 
-    @FXML
-    private Label lblMensagem;
-
-    private final AuthService authService = new AuthService(AppConfig.API_BASE_URL);
-
-    @FXML
-    public void handleLogin() {
-        String username = txtUsername.getText();
-        String password = txtPassword.getText();
-
-        if (username.isEmpty() || password.isEmpty()) {
-            lblMensagem.setText("Preencha todos os campos.");
-            return;
-        }
-
-        lblMensagem.setText("Verificando login...");
-
-        // Task para não travar a UI durante a autenticação Basic Auth
-        Task<LoginResult> task = new Task<>() {
+        Task<Void> task = new Task<>() {
             @Override
-            protected LoginResult call() {
-                return authService.login(username, password);
+            protected Void call() throws Exception {
+
+                authService.login(
+                        emailField.getText(),
+                        passwordField.getText()
+                );
+
+                return null;
             }
         };
 
-        task.setOnSucceeded(event -> {
-            LoginResult result = task.getValue();
-            if (result.isSuccess()) {
-                // SALVA A SESSÃO: Guarda o serviço autenticado para uso posterior
-                os.infinitytech.os_front_infinitytech.config.Session.setAuthService(this.authService);
+        task.setOnSucceeded(e -> {
+            lblMensagem.setStyle("-fx-text-fill: green;");
+            lblMensagem.setText("Login realizado com sucesso!");
 
-                Platform.runLater(() -> {
-                    lblMensagem.setText("Login realizado com sucesso!");
-                    abrirTelaPrincipal();
-                });
-            } else {
-                lblMensagem.setText(result.getMessage());
-            }
+            Platform.runLater(() -> {
+                lblMensagem.setText("Login realizado com sucesso!");
+                abrirTelaPrincipal();
+            });
+
         });
 
-        task.setOnFailed(event -> {
-            Platform.runLater(() -> lblMensagem.setText("Erro de conexão com o servidor."));
+        task.setOnFailed(e -> {
+            Throwable ex = task.getException();
+
+            lblMensagem.setStyle("-fx-text-fill: red;");
+            lblMensagem.setText("Erro: " + ex.getMessage());
         });
 
         new Thread(task).start();
+    }
+
+    // 🚪 LOGOUT (opcional aqui)
+    @FXML
+    public void onLogout() {
+
+        try {
+            authService.logout();
+
+            // 🔥 limpar UI
+            emailField.clear();
+            passwordField.clear();
+
+            lblMensagem.setStyle("-fx-text-fill: black;");
+            lblMensagem.setText("Sessão encerrada");
+
+            // 🔥 voltar para login ou tela inicial
+            Platform.runLater(() -> {
+                lblMensagem.setText("Login realizado com sucesso!");
+                abrirTelaPrincipal();
+            });
+
+
+        } catch (Exception e) {
+            lblMensagem.setStyle("-fx-text-fill: red;");
+            lblMensagem.setText("Erro ao fazer logout: " + e.getMessage());
+        }
     }
 
     private void abrirTelaPrincipal() {
@@ -86,7 +103,7 @@ public class LoginController {
             Parent root = loader.load();
 
             // Pega o Stage atual a partir de qualquer elemento da tela (ex: campo de usuário)
-            Stage stage = (Stage) txtUsername.getScene().getWindow();
+            Stage stage = (Stage) emailField.getScene().getWindow();
 
             // Define a nova cena (Home)
             Scene scene = new Scene(root);

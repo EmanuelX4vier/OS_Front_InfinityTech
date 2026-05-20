@@ -1,8 +1,8 @@
 package os.infinitytech.os_front_infinitytech.model;
 
 import com.google.gson.annotations.SerializedName;
-import javafx.beans.property.SimpleStringProperty;
-import javafx.beans.property.StringProperty;
+import javafx.beans.property.*;
+import java.math.BigDecimal;
 
 public class ProduModel {
 
@@ -18,24 +18,84 @@ public class ProduModel {
     @SerializedName("status")
     private String status;
 
-    @SerializedName("quantidade") // Nome exato que vem do JSON do back-end
-    private String quantidade;
+    @SerializedName("quantidade")
+    private Long quantidade;
 
-    public ProduModel() {}
+    @SerializedName("valorDeCompra")
+    private BigDecimal valorCompra;
 
-    // Getters e Properties para o JavaFX
-    public String getCodigo() { return codigo; }
+    @SerializedName("valorDeVenda")
+    private BigDecimal valorVenda;
+
+    // --- Métodos Property para a TableView ---
+
     public StringProperty codigoProperty() { return new SimpleStringProperty(codigo); }
-
-    public String getNome() { return nome; }
     public StringProperty nomeProperty() { return new SimpleStringProperty(nome); }
-
-    public String getMarca() { return marca; }
     public StringProperty marcaProperty() { return new SimpleStringProperty(marca); }
-
-    public String getStatus() { return status; }
     public StringProperty statusProperty() { return new SimpleStringProperty(status); }
+    public StringProperty quantidadeProperty() {
+        return new SimpleStringProperty(quantidade != null ? quantidade.toString() : "0");
+    }
+    public StringProperty valorCompraProperty() {
+        return new SimpleStringProperty(valorCompra != null ? String.format("R$ %.2f", valorCompra) : "R$ 0,00");
+    }
+    public StringProperty valorVendaProperty() {
+        return new SimpleStringProperty(valorVenda != null ? String.format("R$ %.2f", valorVenda) : "R$ 0,00");
+    }
 
-    public String getQuantidade() { return quantidade; }
-    public StringProperty quantidadeProperty() { return new SimpleStringProperty(quantidade); }
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
+
+    public String getNome() {
+        return nome;
+    }
+
+    public void setNome(String nome) {
+        this.nome = nome;
+    }
+
+    public String getMarca() {
+        return marca;
+    }
+
+    public void setMarca(String marca) {
+        this.marca = marca;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
+    public Long getQuantidade() {
+        return quantidade;
+    }
+
+    public void setQuantidade(Long quantidade) {
+        this.quantidade = quantidade;
+    }
+
+    public BigDecimal getValorCompra() {
+        return valorCompra;
+    }
+
+    public void setValorCompra(BigDecimal valorCompra) {
+        this.valorCompra = valorCompra;
+    }
+
+    public BigDecimal getValorVenda() {
+        return valorVenda;
+    }
+
+    public void setValorVenda(BigDecimal valorVenda) {
+        this.valorVenda = valorVenda;
+    }
 }
