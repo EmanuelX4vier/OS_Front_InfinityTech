@@ -14,19 +14,28 @@ public class AuthService {
 
         Map<String, String> body = new HashMap<>();
         body.put("email", email);
-        body.put("password", password);
+        body.put("senha", password);
 
         String json = mapper.writeValueAsString(body);
 
         String response = apiClient.postWithoutAuth("/auth/login", json);
 
+        System.out.println("LOGIN RESPONSE: " + response);
+
         Map<String, Object> obj = mapper.readValue(response, Map.class);
 
-        String accessToken = (String) obj.get("accessToken");
+        Object tokenObj = obj.get("accessToken");
+
+        if (tokenObj == null) {
+            throw new RuntimeException("Token não recebido do backend!");
+        }
+
+        String accessToken = tokenObj.toString();
 
         AuthStorage.getInstance().saveAccessToken(accessToken);
-    }
 
+        System.out.println("TOKEN SALVO: " + accessToken);
+    }
     // 🆕 REGISTER
     public void register(String name, String email, String password) throws Exception {
 

@@ -1,7 +1,9 @@
 package os.infinitytech.os_front_infinitytech.model;
 
 import com.google.gson.annotations.SerializedName;
-import javafx.beans.property.*;
+import javafx.beans.property.SimpleStringProperty;
+import javafx.beans.property.StringProperty;
+
 import java.math.BigDecimal;
 
 public class ProduModel {
@@ -27,21 +29,54 @@ public class ProduModel {
     @SerializedName("valorDeVenda")
     private BigDecimal valorVenda;
 
-    // --- Métodos Property para a TableView ---
+    // =========================
+    // PROPERTIES
+    // =========================
 
-    public StringProperty codigoProperty() { return new SimpleStringProperty(codigo); }
-    public StringProperty nomeProperty() { return new SimpleStringProperty(nome); }
-    public StringProperty marcaProperty() { return new SimpleStringProperty(marca); }
-    public StringProperty statusProperty() { return new SimpleStringProperty(status); }
+    public StringProperty codigoProperty() {
+        return new SimpleStringProperty(codigo != null ? codigo : "");
+    }
+
+    public StringProperty nomeProperty() {
+        return new SimpleStringProperty(nome != null ? nome : "");
+    }
+
+    public StringProperty marcaProperty() {
+        return new SimpleStringProperty(marca != null ? marca : "");
+    }
+
+    public StringProperty statusProperty() {
+        return new SimpleStringProperty(status != null ? status : "");
+    }
+
     public StringProperty quantidadeProperty() {
-        return new SimpleStringProperty(quantidade != null ? quantidade.toString() : "0");
+
+        return new SimpleStringProperty(
+                quantidade != null ? quantidade.toString() : "0"
+        );
     }
+
     public StringProperty valorCompraProperty() {
-        return new SimpleStringProperty(valorCompra != null ? String.format("R$ %.2f", valorCompra) : "R$ 0,00");
+
+        return new SimpleStringProperty(
+                valorCompra != null
+                        ? String.format("R$ %.2f", valorCompra)
+                        : "R$ 0,00"
+        );
     }
+
     public StringProperty valorVendaProperty() {
-        return new SimpleStringProperty(valorVenda != null ? String.format("R$ %.2f", valorVenda) : "R$ 0,00");
+
+        return new SimpleStringProperty(
+                valorVenda != null
+                        ? String.format("R$ %.2f", valorVenda)
+                        : "R$ 0,00"
+        );
     }
+
+    // =========================
+    // GETTERS / SETTERS
+    // =========================
 
     public String getCodigo() {
         return codigo;

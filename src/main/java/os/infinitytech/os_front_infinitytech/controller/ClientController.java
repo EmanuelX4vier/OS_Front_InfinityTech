@@ -4,7 +4,6 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
-import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -14,28 +13,27 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import os.infinitytech.os_front_infinitytech.model.ProduModel;
-import os.infinitytech.os_front_infinitytech.service.ProduService;
+import os.infinitytech.os_front_infinitytech.model.ClientModel;
+import os.infinitytech.os_front_infinitytech.service.ClientService;
 
 import java.io.IOException;
 import java.util.List;
 
-public class EstoqueController {
+public class ClientController {
 
-    @FXML private TableView<ProduModel> tblEstoque;
+    @FXML private TableView<ClientModel> tblClients;
 
-    @FXML private TableColumn<ProduModel, String> colCodigo;
-    @FXML private TableColumn<ProduModel, String> colNome;
-    @FXML private TableColumn<ProduModel, String> colMarca;
-    @FXML private TableColumn<ProduModel, String> colStatus;
-    @FXML private TableColumn<ProduModel, String> colQuantidade;
-    @FXML private TableColumn<ProduModel, String> colValorCompra;
-    @FXML private TableColumn<ProduModel, String> colValorVenda;
+    @FXML private TableColumn<ClientModel, String> colId;
+    @FXML private TableColumn<ClientModel, String> colNome;
+    @FXML private TableColumn<ClientModel, String> colTelefone;
+    @FXML private TableColumn<ClientModel, String> colEndereco;
+    @FXML private TableColumn<ClientModel, String> colDataCadastro;
 
-    private final ObservableList<ProduModel> listaProdutos =
+    private final ObservableList<ClientModel> listaClients =
             FXCollections.observableArrayList();
 
-    private final ProduService produService = new ProduService();
+    private final ClientService clientService =
+            new ClientService();
 
     @FXML
     public void initialize() {
@@ -47,59 +45,56 @@ public class EstoqueController {
 
     private void configurarColunas() {
 
-        colCodigo.setCellValueFactory(cell ->
-                cell.getValue().codigoProperty());
+        colId.setCellValueFactory(cell ->
+                cell.getValue().idProperty());
 
         colNome.setCellValueFactory(cell ->
                 cell.getValue().nomeProperty());
 
-        colMarca.setCellValueFactory(cell ->
-                cell.getValue().marcaProperty());
+        colTelefone.setCellValueFactory(cell ->
+                cell.getValue().telefoneProperty());
 
-        colStatus.setCellValueFactory(cell ->
-                cell.getValue().statusProperty());
+        colEndereco.setCellValueFactory(cell ->
+                cell.getValue().enderecoProperty());
 
-        colQuantidade.setCellValueFactory(cell ->
-                cell.getValue().quantidadeProperty());
-
-        colValorCompra.setCellValueFactory(cell ->
-                cell.getValue().valorCompraProperty());
-
-        colValorVenda.setCellValueFactory(cell ->
-                cell.getValue().valorVendaProperty());
+        colDataCadastro.setCellValueFactory(cell ->
+                cell.getValue().dataCadastroProperty());
     }
 
+    // =========================
+    // LISTAR CLIENTS
+    // =========================
     @FXML
     private void carregarDados() {
 
-        Task<List<ProduModel>> task = new Task<>() {
+        Task<List<ClientModel>> task = new Task<>() {
 
             @Override
-            protected List<ProduModel> call() throws Exception {
+            protected List<ClientModel> call() throws Exception {
 
-                return produService.buscarProdutos();
+                return clientService.buscarClients();
             }
         };
 
         task.setOnSucceeded(event -> {
 
-            List<ProduModel> produtos = task.getValue();
+            List<ClientModel> clients = task.getValue();
 
             Platform.runLater(() -> {
 
-                listaProdutos.clear();
+                listaClients.clear();
 
-                listaProdutos.addAll(produtos);
+                listaClients.addAll(clients);
 
-                tblEstoque.setItems(listaProdutos);
+                tblClients.setItems(listaClients);
 
-                tblEstoque.refresh();
+                tblClients.refresh();
             });
         });
 
         task.setOnFailed(event -> {
 
-            System.err.println("Erro ao carregar estoque:");
+            System.err.println("Erro ao carregar clients:");
 
             task.getException().printStackTrace();
         });
@@ -111,14 +106,26 @@ public class EstoqueController {
         thread.start();
     }
 
+    // =========================
+    // ATUALIZAR
+    // =========================
     @FXML
-    private void handleAdicionar(ActionEvent event) {
+    private void handleAtualizar() {
+
+        carregarDados();
+    }
+
+    // =========================
+    // ADICIONAR CLIENT
+    // =========================
+    @FXML
+    private void handleAdicionar() {
 
         try {
 
             FXMLLoader loader = new FXMLLoader(
                     getClass().getResource(
-                            "/os_front_infinitytech/fxml/dialogProdu.fxml"
+                            "/os_front_infinitytech/fxml/dialogClient.fxml"
                     )
             );
 
@@ -126,7 +133,7 @@ public class EstoqueController {
 
             Stage stage = new Stage();
 
-            stage.setTitle("Infinity Tech - Novo Produto");
+            stage.setTitle("Infinity Tech - Novo Client");
 
             stage.initModality(Modality.APPLICATION_MODAL);
 
@@ -140,20 +147,17 @@ public class EstoqueController {
 
         } catch (IOException e) {
 
-            System.err.println("Erro ao abrir tela de cadastro:");
+            System.err.println("Erro ao abrir cadastro client:");
 
             e.printStackTrace();
         }
     }
 
+    // =========================
+    // VOLTAR
+    // =========================
     @FXML
-    private void handleAtualizar(ActionEvent event) {
-
-        carregarDados();
-    }
-
-    @FXML
-    private void handleVoltar(ActionEvent event) {
+    private void handleVoltar(javafx.event.ActionEvent event) {
 
         try {
 

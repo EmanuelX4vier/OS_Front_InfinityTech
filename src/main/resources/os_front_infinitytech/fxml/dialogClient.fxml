@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0"
+            prefWidth="600.0"
+            styleClass="main-background"
+            stylesheets="@../css/style.css"
+            xmlns="http://javafx.com/javafx/21"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="os.infinitytech.os_front_infinitytech.controller.DialogClientController">
+
+    <children>
+
+        <VBox spacing="25.0"
+              AnchorPane.topAnchor="30.0"
+              AnchorPane.bottomAnchor="30.0"
+              AnchorPane.leftAnchor="30.0"
+              AnchorPane.rightAnchor="30.0">
+
+            <children>
+
+                <!-- HEADER -->
+                <VBox spacing="8.0">
+
+                    <children>
+
+                        <Text text="NOVO CLIENT"
+                              fill="WHITE">
+
+                            <font>
+                                <Font name="System Bold" size="24.0"/>
+                            </font>
+
+                        </Text>
+
+                        <Text text="Infinity Tech - Cadastro de Client"
+                              fill="#d4af37">
+
+                            <font>
+                                <Font size="14.0"/>
+                            </font>
+
+                        </Text>
+
+                    </children>
+
+                </VBox>
+
+                <!-- FORM -->
+                <GridPane hgap="20.0" vgap="18.0">
+
+                    <padding>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
+                    </padding>
+
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="30"/>
+                        <ColumnConstraints percentWidth="70"/>
+                    </columnConstraints>
+
+                    <children>
+
+                        <!-- NOME -->
+                        <Label text="Nome:"
+                               GridPane.columnIndex="0"
+                               GridPane.rowIndex="0"
+                               textFill="WHITE"/>
+
+                        <TextField fx:id="txtNome"
+                                   promptText="Digite o nome"
+                                   GridPane.columnIndex="1"
+                                   GridPane.rowIndex="0"/>
+
+                        <!-- TELEFONE -->
+                        <Label text="Telefone:"
+                               GridPane.columnIndex="0"
+                               GridPane.rowIndex="1"
+                               textFill="WHITE"/>
+
+                        <TextField fx:id="txtTelefone"
+                                   promptText="Digite o telefone"
+                                   GridPane.columnIndex="1"
+                                   GridPane.rowIndex="1"/>
+
+                        <!-- ENDEREÇO -->
+                        <Label text="Endereço:"
+                               GridPane.columnIndex="0"
+                               GridPane.rowIndex="2"
+                               textFill="WHITE"/>
+
+                        <TextField fx:id="txtEndereco"
+                                   promptText="Digite o endereço"
+                                   GridPane.columnIndex="1"
+                                   GridPane.rowIndex="2"/>
+
+                    </children>
+
+                </GridPane>
+
+                <!-- MENSAGEM -->
+                <Label fx:id="lblMensagem"
+                       textFill="WHITE"/>
+
+                <!-- BOTÕES -->
+                <HBox spacing="15.0"
+                      alignment="CENTER_RIGHT">
+
+                    <children>
+
+                        <Button text="CANCELAR"
+                                onAction="#handleCancelar"
+                                prefWidth="120"
+                                prefHeight="40"
+                                styleClass="login-button"
+                                style="-fx-background-color: #555555;"/>
+
+                        <Button text="SALVAR"
+                                onAction="#handleSalvar"
+                                prefWidth="120"
+                                prefHeight="40"
+                                styleClass="login-button"/>
+
+                    </children>
+
+                </HBox>
+
+            </children>
+
+        </VBox>
+
+    </children>
+
+</AnchorPane>

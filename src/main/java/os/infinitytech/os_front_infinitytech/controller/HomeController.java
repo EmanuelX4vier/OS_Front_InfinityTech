@@ -22,12 +22,12 @@ public class HomeController {
 
     @FXML
     private void handleClientes(ActionEvent event){
-        exibirAlerta("Módulo de Clientes", "Navegando para a tela de clientes.");
+        carregarTela("/os_front_infinitytech/fxml/client.fxml", "Infinity Tech - Gerenciamento de Clientes", event);
     }
 
     @FXML
     private void handleServicos(ActionEvent event) {
-        exibirAlerta("Módulo de Serviços", "Navegando para a ordem de serviços...");
+        carregarTela("/os_front_infinitytech/fxml/ordem.fxml", "Infinity Tech - Gerenciamento de Ordens", event);
     }
 
     /**

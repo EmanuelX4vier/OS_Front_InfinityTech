@@ -9,9 +9,11 @@ public class AuthStorage {
     private AuthStorage() {}
 
     public static AuthStorage getInstance() {
+
         if (instance == null) {
             instance = new AuthStorage();
         }
+
         return instance;
     }
 
@@ -28,6 +30,6 @@ public class AuthStorage {
     }
 
     public boolean isAuthenticated() {
-        return accessToken != null;
+        return accessToken != null && !accessToken.isBlank();
     }
 }
