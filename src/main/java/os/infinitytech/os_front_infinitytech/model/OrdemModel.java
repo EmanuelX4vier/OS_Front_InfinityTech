@@ -18,7 +18,7 @@ public class OrdemModel {
     @SerializedName("status")
     private String status;
 
-    @SerializedName("dataCadastro")
+    @SerializedName("dataCadastro") // Voltado para o padrão correto do endpoint /equips
     private String dataCadastro;
 
     // UI only

@@ -19,14 +19,13 @@ public class OrdemService {
     private final ApiClient apiClient = new ApiClient();
     private final Gson gson = new Gson();
 
-    // =========================
-    // LISTAR ORDENS
-    // =========================
-    public List<OrdemModel> buscarOrdens(ClientService clientService) throws Exception {
+    // ========================================================
+    // LISTAR ORDENS COM PAGINAÇÃO
+    // ========================================================
+    public List<OrdemModel> buscarOrdens(ClientService clientService, int pagina) throws Exception {
+        String json = apiClient.get("/equips?page=" + pagina + "&size=20");
 
-        String json = apiClient.get("/equips");
-
-        System.out.println("ORDENS JSON:");
+        System.out.println("ORDENS JSON (PÁGINA " + pagina + "):");
         System.out.println(json);
 
         if (json == null || json.isBlank()) {
@@ -34,12 +33,15 @@ public class OrdemService {
         }
 
         JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+        if (!obj.has("content") || obj.get("content").isJsonNull()) {
+            return new ArrayList<>();
+        }
+
         JsonArray content = obj.getAsJsonArray("content");
 
         Type listType = new TypeToken<List<OrdemModel>>() {}.getType();
         List<OrdemModel> list = gson.fromJson(content, listType);
 
-        // Preenche o nome de cada cliente buscando pelo ID correspondente na API
         if (list != null && clientService != null) {
             for (OrdemModel ordem : list) {
                 if (ordem.getClientId() != null) {
@@ -61,26 +63,15 @@ public class OrdemService {
         return list;
     }
 
-    // =========================
-    // CRIAR ORDEM
-    // =========================
     public String criarOrdem(OrdemModel ordem) throws Exception {
-
         String json = gson.toJson(ordem);
-
         System.out.println("JSON ENVIADO:");
         System.out.println(json);
-
         return apiClient.post("/equips", json);
     }
 
-    // =========================
-    // BUSCAR POR SERIAL
-    // =========================
     public OrdemModel buscarPorSerial(String serial) throws Exception {
-
         String json = apiClient.get("/equips/" + serial);
-
         return gson.fromJson(json, OrdemModel.class);
     }
 }

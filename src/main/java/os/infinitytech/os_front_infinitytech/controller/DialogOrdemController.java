@@ -25,7 +25,6 @@ public class DialogOrdemController {
 
     @FXML
     public void initialize() {
-
         cbStatus.getItems().addAll(
                 "ANDAMENTO",
                 "CONCLUIDO",
@@ -35,7 +34,8 @@ public class DialogOrdemController {
                 "INDISPONIVEL"
         );
 
-        txtClientNome.setEditable(true);
+        // 🔥 MELHORIA: Bloqueia a edição manual do nome para forçar a busca via ID correto
+        txtClientNome.setEditable(false);
 
         // Adiciona ouvinte para disparar a busca quando o campo ID perde o foco
         txtClientId.focusedProperty().addListener((observable, oldValue, newValue) -> {
@@ -48,6 +48,7 @@ public class DialogOrdemController {
     private void buscarClientePorId() {
         String idText = txtClientId.getText().trim();
         if (idText.isEmpty()) {
+            txtClientNome.setText("");
             return;
         }
 
@@ -68,45 +69,63 @@ public class DialogOrdemController {
             Platform.runLater(() -> {
                 if (cliente != null && cliente.getNome() != null) {
                     txtClientNome.setText(cliente.getNome());
+                    lblMensagem.setText("");
                 } else {
-                    txtClientNome.setText("Cliente não encontrado");
+                    txtClientNome.setText("");
+                    lblMensagem.setText("⚠️ Cliente não encontrado.");
                 }
             });
         });
 
         task.setOnFailed(e -> {
             Platform.runLater(() -> {
-                txtClientNome.setText("Erro ao buscar cliente");
+                txtClientNome.setText("");
+                lblMensagem.setText("❌ Erro ao buscar cliente no servidor.");
             });
         });
 
-        new Thread(task).start();
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML
     private void handleSalvar() {
+        // 🔥 CORREÇÃO: Validação de Segurança dos campos antes de rodar a Thread
+        String idText = txtClientId.getText().trim();
+        String status = cbStatus.getValue();
+        String serial = txtSerial.getText().trim();
+        String nomeCliente = txtClientNome.getText().trim();
+
+        if (idText.isEmpty() || nomeCliente.isEmpty()) {
+            lblMensagem.setText("⚠️ Forneça um ID de cliente válido.");
+            return;
+        }
+        if (status == null) {
+            lblMensagem.setText("⚠️ Selecione um Status.");
+            return;
+        }
+        if (serial.isEmpty()) {
+            lblMensagem.setText("⚠️ Informe o Nº de Série/Equipamento.");
+            return;
+        }
 
         lblMensagem.setText("Salvando...");
 
         Task<Void> task = new Task<>() {
             @Override
             protected Void call() throws Exception {
+                // Aqui o parse é 100% seguro pois já validamos acima
+                Long clientId = Long.parseLong(idText);
 
                 OrdemModel ordem = new OrdemModel();
-
-                ordem.setClientId(
-                        Long.parseLong(txtClientId.getText())
-                );
-
-                ordem.setSerial(txtSerial.getText());
-                ordem.setDescricao(txtDescricao.getText());
-                ordem.setStatus(cbStatus.getValue());
-
-                // Salva o nome preenchido no componente visual
-                ordem.setClientNome(txtClientNome.getText());
+                ordem.setClientId(clientId);
+                ordem.setSerial(serial);
+                ordem.setDescricao(txtDescricao.getText() != null ? txtDescricao.getText().trim() : "");
+                ordem.setStatus(status);
+                ordem.setClientNome(nomeCliente);
 
                 service.criarOrdem(ordem);
-
                 return null;
             }
         };
@@ -120,11 +139,15 @@ public class DialogOrdemController {
 
         task.setOnFailed(e -> {
             Platform.runLater(() -> {
-                lblMensagem.setText("Erro: " + task.getException().getMessage());
+                System.err.println("Erro ao salvar ordem de serviço:");
+                task.getException().printStackTrace();
+                lblMensagem.setText("❌ Erro: " + task.getException().getMessage());
             });
         });
 
-        new Thread(task).start();
+        Thread thread = new Thread(task);
+        thread.setDaemon(true);
+        thread.start();
     }
 
     @FXML

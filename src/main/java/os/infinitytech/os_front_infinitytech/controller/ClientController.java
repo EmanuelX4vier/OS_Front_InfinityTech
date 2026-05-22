@@ -4,10 +4,13 @@ import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.concurrent.Task;
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.stage.Modality;
@@ -22,168 +25,146 @@ import java.util.List;
 public class ClientController {
 
     @FXML private TableView<ClientModel> tblClients;
-
     @FXML private TableColumn<ClientModel, String> colId;
     @FXML private TableColumn<ClientModel, String> colNome;
     @FXML private TableColumn<ClientModel, String> colTelefone;
     @FXML private TableColumn<ClientModel, String> colEndereco;
     @FXML private TableColumn<ClientModel, String> colDataCadastro;
 
-    private final ObservableList<ClientModel> listaClients =
-            FXCollections.observableArrayList();
+    @FXML private Button btnClientAnterior;
+    @FXML private Button btnClientProxima;
+    @FXML private Label lblClientPagina;
 
-    private final ClientService clientService =
-            new ClientService();
+    private final ObservableList<ClientModel> listaClientes = FXCollections.observableArrayList();
+    private final ClientService clientService = new ClientService();
+
+    private int paginaAtual = 0;
 
     @FXML
     public void initialize() {
-
         configurarColunas();
-
         carregarDados();
     }
 
     private void configurarColunas() {
-
-        colId.setCellValueFactory(cell ->
-                cell.getValue().idProperty());
-
-        colNome.setCellValueFactory(cell ->
-                cell.getValue().nomeProperty());
-
-        colTelefone.setCellValueFactory(cell ->
-                cell.getValue().telefoneProperty());
-
-        colEndereco.setCellValueFactory(cell ->
-                cell.getValue().enderecoProperty());
-
-        colDataCadastro.setCellValueFactory(cell ->
-                cell.getValue().dataCadastroProperty());
+        colId.setCellValueFactory(cell -> cell.getValue().idProperty());
+        colNome.setCellValueFactory(cell -> cell.getValue().nomeProperty());
+        colTelefone.setCellValueFactory(cell -> cell.getValue().telefoneProperty());
+        colEndereco.setCellValueFactory(cell -> cell.getValue().enderecoProperty());
+        colDataCadastro.setCellValueFactory(cell -> cell.getValue().dataCadastroProperty());
     }
 
-    // =========================
-    // LISTAR CLIENTS
-    // =========================
     @FXML
     private void carregarDados() {
+        // Desativa temporariamente os botões para evitar cliques duplos rápidos
+        btnClientAnterior.setDisable(true);
+        btnClientProxima.setDisable(true);
 
         Task<List<ClientModel>> task = new Task<>() {
-
             @Override
             protected List<ClientModel> call() throws Exception {
-
-                return clientService.buscarClients();
+                // Passa a página atual corretamente para o Service
+                return clientService.buscarClients(paginaAtual);
             }
         };
 
         task.setOnSucceeded(event -> {
-
-            List<ClientModel> clients = task.getValue();
+            List<ClientModel> clientes = task.getValue();
 
             Platform.runLater(() -> {
+                listaClientes.clear();
+                if (clientes != null && !clientes.isEmpty()) {
+                    listaClientes.addAll(clientes);
+                    tblClients.setItems(listaClientes);
 
-                listaClients.clear();
+                    // Se o backend retornou 20 registros completos, pode haver uma próxima página
+                    btnClientProxima.setDisable(clientes.size() < 20);
+                } else {
+                    tblClients.setItems(FXCollections.emptyObservableList());
+                    btnClientProxima.setDisable(true);
+                }
 
-                listaClients.addAll(clients);
+                // Atualiza o texto visual (Exibição amigável: index 0 vira Página 1)
+                lblClientPagina.setText("Página: " + (paginaAtual + 1));
 
-                tblClients.setItems(listaClients);
-
+                // Controle do botão Anterior
+                btnClientAnterior.setDisable(paginaAtual == 0);
                 tblClients.refresh();
             });
         });
 
         task.setOnFailed(event -> {
-
-            System.err.println("Erro ao carregar clients:");
-
+            System.err.println("Erro ao carregar clientes da página " + paginaAtual);
             task.getException().printStackTrace();
+
+            Platform.runLater(() -> {
+                btnClientAnterior.setDisable(paginaAtual == 0);
+                btnClientProxima.setDisable(false);
+            });
         });
 
         Thread thread = new Thread(task);
-
         thread.setDaemon(true);
-
         thread.start();
     }
 
-    // =========================
-    // ATUALIZAR
-    // =========================
     @FXML
-    private void handleAtualizar() {
+    private void handleClientAnterior() {
+        if (paginaAtual > 0) {
+            paginaAtual--;
+            carregarDados();
+        }
+    }
 
+    @FXML
+    private void handleClientProxima() {
+        paginaAtual++;
         carregarDados();
     }
 
-    // =========================
-    // ADICIONAR CLIENT
-    // =========================
+    @FXML
+    private void handleAtualizar(ActionEvent event) {
+        carregarDados();
+    }
+
     @FXML
     private void handleAdicionar() {
-
         try {
-
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(
-                            "/os_front_infinitytech/fxml/dialogClient.fxml"
-                    )
-            );
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialogClient.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
-
-            stage.setTitle("Infinity Tech - Novo Client");
-
+            stage.setTitle("Infinity Tech - Novo Cliente");
             stage.initModality(Modality.APPLICATION_MODAL);
-
             stage.setScene(new Scene(root));
-
             stage.setResizable(false);
-
             stage.showAndWait();
 
+            // Recarrega os dados após fechar o modal
             carregarDados();
-
         } catch (IOException e) {
-
-            System.err.println("Erro ao abrir cadastro client:");
-
+            System.err.println("Erro ao abrir cadastro cliente:");
             e.printStackTrace();
         }
     }
 
-    // =========================
-    // VOLTAR
-    // =========================
     @FXML
-    private void handleVoltar(javafx.event.ActionEvent event) {
-
+    private void handleVoltar(ActionEvent event) {
         try {
-
-            FXMLLoader loader = new FXMLLoader(
-                    getClass().getResource(
-                            "/os_front_infinitytech/fxml/home.fxml"
-                    )
-            );
-
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/home.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage)
-                    ((javafx.scene.Node) event.getSource())
-                            .getScene()
-                            .getWindow();
-
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
-
             stage.setTitle("Infinity Tech - Home");
 
+            // 🔥 CORREÇÃO: Garante que ao voltar para a Home a tela continue cheia
+            stage.setMaximized(false);
+            stage.setMaximized(true);
+
             stage.show();
-
         } catch (IOException e) {
-
             System.err.println("Erro ao voltar:");
-
             e.printStackTrace();
         }
     }

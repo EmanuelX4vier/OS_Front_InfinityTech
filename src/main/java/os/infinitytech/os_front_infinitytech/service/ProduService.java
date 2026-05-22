@@ -1,10 +1,6 @@
 package os.infinitytech.os_front_infinitytech.service;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
+import com.google.gson.*;
 import com.google.gson.reflect.TypeToken;
 import os.infinitytech.os_front_infinitytech.auth.ApiClient;
 import os.infinitytech.os_front_infinitytech.model.ProduModel;
@@ -18,66 +14,48 @@ public class ProduService {
     private final ApiClient apiClient = new ApiClient();
     private final Gson gson = new Gson();
 
-    // =========================
-    // LISTAR PRODUTOS
-    // =========================
-    public List<ProduModel> buscarProdutos() throws Exception {
+    // ========================================================
+    // LISTAR PRODUTOS DO ESTOQUE COM PAGINAÇÃO
+    // ========================================================
+    public List<ProduModel> buscarProdutos(int pagina) throws Exception {
+        String json = apiClient.get("/products?page=" + pagina + "&size=20");
 
-        String json = apiClient.get("/products");
-
-        System.out.println("JSON RECEBIDO:");
+        System.out.println("ESTOQUE JSON (PÁGINA " + pagina + "):");
         System.out.println(json);
 
         if (json == null || json.isBlank()) {
             return new ArrayList<>();
         }
 
-        JsonElement element = JsonParser.parseString(json);
+        try {
+            JsonObject obj = JsonParser.parseString(json).getAsJsonObject();
+            if (!obj.has("content") || obj.get("content").isJsonNull()) {
+                return new ArrayList<>();
+            }
 
-        if (!element.isJsonObject()) {
-            System.out.println("Resposta não é JSON Object");
+            JsonArray content = obj.getAsJsonArray("content");
+            Type listType = new TypeToken<ArrayList<ProduModel>>() {}.getType();
+
+            List<ProduModel> resultado = gson.fromJson(content, listType);
+            return resultado != null ? resultado : new ArrayList<>();
+
+        } catch (Exception e) {
+            System.err.println("Erro ao processar JSON do estoque: " + e.getMessage());
             return new ArrayList<>();
         }
-
-        JsonObject jsonObject = element.getAsJsonObject();
-
-        if (!jsonObject.has("content")) {
-            System.out.println("Campo 'content' não encontrado");
-            return new ArrayList<>();
-        }
-
-        JsonArray contentArray = jsonObject.getAsJsonArray("content");
-
-        Type listType = new TypeToken<ArrayList<ProduModel>>() {}.getType();
-
-        return gson.fromJson(contentArray, listType);
     }
 
-    // =========================
-    // CRIAR PRODUTO
-    // =========================
     public String criarProduto(ProduModel produto) throws Exception {
-
         String json = gson.toJson(produto);
-
         return apiClient.post("/products", json);
     }
 
-    // =========================
-    // ATUALIZAR PRODUTO
-    // =========================
-    public String atualizarProduto(String codigo, ProduModel produto) throws Exception {
-
+    public String atualizarProduto(Long id, ProduModel produto) throws Exception {
         String json = gson.toJson(produto);
-
-        return apiClient.post("/products/" + codigo, json);
+        return apiClient.post("/products/" + id, json);
     }
 
-    // =========================
-    // DELETAR PRODUTO
-    // =========================
-    public String deletarProduto(String codigo) throws Exception {
-
-        return apiClient.post("/products/" + codigo, "");
+    public void deletarProduto(Long id) throws Exception {
+        apiClient.delete("/products/" + id);
     }
 }

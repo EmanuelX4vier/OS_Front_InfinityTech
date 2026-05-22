@@ -3,9 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
+<?import javafx.geometry.Insets?>
 
-<AnchorPane prefHeight="600.0"
-            prefWidth="1200.0"
+<AnchorPane prefHeight="600.0" prefWidth="1200.0"
             styleClass="main-background"
             stylesheets="@../css/style.css"
             xmlns="http://javafx.com/javafx/21"
@@ -13,7 +13,6 @@
             fx:controller="os.infinitytech.os_front_infinitytech.controller.OrdemController">
 
     <children>
-
         <VBox spacing="25.0"
               AnchorPane.topAnchor="30.0"
               AnchorPane.bottomAnchor="30.0"
@@ -21,98 +20,87 @@
               AnchorPane.rightAnchor="30.0">
 
             <children>
-
-                <HBox spacing="10.0"
-                      alignment="CENTER_LEFT">
-
+                <HBox spacing="15.0" alignment="CENTER_LEFT">
                     <children>
-
                         <VBox spacing="8.0">
-
                             <children>
-
-                                <Text text="GESTÃO DE ORDENS"
-                                      fill="WHITE">
-
+                                <Text text="GESTÃO DE ORDENS DE SERVIÇO" fill="WHITE">
                                     <font>
-                                        <Font size="24.0"
-                                              name="System Bold"/>
+                                        <Font name="System Bold" size="24.0"/>
                                     </font>
                                 </Text>
-
-                                <Text text="Infinity Tech - Ordens de Serviço"
-                                      fill="#d4af37">
-
+                                <Text text="Infinity Tech - Controle de Serviços" fill="#d4af37">
                                     <font>
                                         <Font size="14.0"/>
                                     </font>
                                 </Text>
-
                             </children>
                         </VBox>
 
-                        <Region HBox.hgrow="ALWAYS"/>
+                        <Region HBox.hgrow="ALWAYS" />
 
-                        <HBox spacing="15.0"
-                              alignment="CENTER">
-
+                        <HBox spacing="15.0" alignment="CENTER">
                             <children>
-
                                 <Button text="ATUALIZAR"
                                         onAction="#handleAtualizar"
-                                        prefWidth="130"
-                                        prefHeight="40"
+                                        prefWidth="130" prefHeight="40"
                                         styleClass="login-button"
-                                        style="-fx-background-color: #555555;"/>
+                                        style="-fx-background-color: #555555;" />
 
                                 <Button text="ADICIONAR"
                                         onAction="#handleAdicionar"
-                                        prefWidth="130"
-                                        prefHeight="40"
-                                        styleClass="login-button"/>
-
+                                        prefWidth="130" prefHeight="40"
+                                        styleClass="login-button" />
                             </children>
                         </HBox>
                     </children>
                 </HBox>
 
-                <TableView fx:id="tblOrdens"
-                           VBox.vgrow="ALWAYS"
-                           styleClass="modern-table">
-
+                <TableView fx:id="tblOrdens" VBox.vgrow="ALWAYS" styleClass="modern-table">
                     <columns>
-
-                        <TableColumn fx:id="colClientId"
-                                     text="CLIENT ID"
-                                     prefWidth="100"/>
-
-                        <TableColumn fx:id="colClient"
-                                     text="CLIENT"
-                                     prefWidth="180"/>
-
-                        <TableColumn fx:id="colSerial"
-                                     text="SERIAL"
-                                     prefWidth="180"/>
-
-                        <TableColumn fx:id="colDescricao"
-                                     text="DESCRIÇÃO"
-                                     prefWidth="420"/>
-
-                        <TableColumn fx:id="colStatus"
-                                     text="STATUS"
-                                     prefWidth="180"/>
-
-                        <TableColumn fx:id="colDataCadastro"
-                                     text="DATA"
-                                     prefWidth="180"/>
-
+                        <TableColumn fx:id="colClientId" text="ID CLIENTE" prefWidth="100" />
+                        <TableColumn fx:id="colClient" text="NOME DO CLIENTE" prefWidth="250" />
+                        <TableColumn fx:id="colSerial" text="Nº SÉRIE / EQUIP." prefWidth="180" />
+                        <TableColumn fx:id="colDescricao" text="DESCRIÇÃO DO SERVIÇO" prefWidth="350" />
+                        <TableColumn fx:id="colStatus" text="STATUS" prefWidth="140" />
+                        <TableColumn fx:id="colDataCadastro" text="DATA CADASTRO" prefWidth="150" />
                     </columns>
-
                     <columnResizePolicy>
-                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY"/>
+                        <TableView fx:constant="CONSTRAINED_RESIZE_POLICY" />
                     </columnResizePolicy>
-
                 </TableView>
+
+                <HBox spacing="20.0" alignment="CENTER">
+                    <children>
+                        <Button fx:id="btnOrdemAnterior"
+                                text="◀ ANTERIOR"
+                                onAction="#handleOrdemAnterior"
+                                styleClass="login-button"
+                                style="-fx-background-color: #555555;"
+                                prefWidth="130" prefHeight="35"/>
+
+                        <Label fx:id="lblOrdemPagina"
+                               text="Página: 1"
+                               textFill="WHITE"
+                               style="-fx-font-size: 14px; -fx-font-weight: bold;" />
+
+                        <Button fx:id="btnOrdemProxima"
+                                text="PRÓXIMA ▶"
+                                onAction="#handleOrdemProxima"
+                                styleClass="login-button"
+                                prefWidth="130" prefHeight="35"/>
+                    </children>
+                </HBox>
+
+                <HBox alignment="CENTER_RIGHT">
+                    <children>
+                        <Button text="VOLTAR À HOME"
+                                onAction="#handleVoltar"
+                                prefWidth="160" prefHeight="40"
+                                styleClass="login-button"
+                                style="-fx-background-color: #555555;" />
+                    </children>
+                </HBox>
 
             </children>
         </VBox>

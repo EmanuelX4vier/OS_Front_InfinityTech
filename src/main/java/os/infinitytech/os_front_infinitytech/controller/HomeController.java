@@ -48,10 +48,15 @@ public class HomeController {
             Button btnSource = (Button) event.getSource();
             Stage stage = (Stage) btnSource.getScene().getWindow();
 
-            // Define a nova cena e exibe
+            // Define a nova cena
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle(titulo);
+
+            // 🔥 CORREÇÃO: Força a nova tela a se manter maximizada
+            stage.setMaximized(false); // Reseta o estado interno do JavaFX para garantir o gatilho
+            stage.setMaximized(true);  // Maximiza novamente de forma definitiva
+
             stage.centerOnScreen();
             stage.show();
 

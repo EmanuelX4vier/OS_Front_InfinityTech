@@ -26,6 +26,7 @@ public class Application extends javafx.application.Application {
 
         stage.setScene(scene);
         stage.setResizable(true);
+        stage.setMaximized(true);
         stage.show();
     }
 }

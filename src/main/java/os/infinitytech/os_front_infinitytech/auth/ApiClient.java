@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "http://localhost:8080";
+    private static final String BASE_URL = "http://100.71.91.25:8080";
 
     private final HttpClient client;
 

@@ -109,6 +109,8 @@ public class LoginController {
             Scene scene = new Scene(root);
             stage.setScene(scene);
             stage.setTitle("Infinity Tech - Home");
+            stage.setMaximized(false);
+            stage.setMaximized(true);
             stage.centerOnScreen();
             stage.show();
 
