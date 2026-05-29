@@ -9,7 +9,7 @@ import java.net.http.HttpResponse;
 
 public class ApiClient {
 
-    private static final String BASE_URL = "http://100.71.91.25:8080";
+    private static final String BASE_URL = "http://localhost:8080";
 
     private final HttpClient client;
 
@@ -86,6 +86,26 @@ public class ApiClient {
                 client.send(request, HttpResponse.BodyHandlers.ofString());
 
         log("GET", response);
+
+        validateAuth(response);
+
+        return response.body();
+    }
+
+    public String patch(String endpoint, String json) throws Exception {
+
+        HttpRequest.Builder builder = HttpRequest.newBuilder()
+                .uri(URI.create(BASE_URL + endpoint))
+                .header("Content-Type", "application/json");
+
+        addAuthHeader(builder);
+
+        HttpRequest request = builder.method("PATCH", HttpRequest.BodyPublishers.ofString(json)).build();
+
+        HttpResponse<String> response =
+                client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        log("PATCH", response);
 
         validateAuth(response);
 

@@ -12,10 +12,10 @@
             prefHeight="600.0"
             prefWidth="850.0"
             styleClass="main-background"
-            stylesheets="@../css/style.css"
+            stylesheets="@../../css/style.css"
             xmlns="http://javafx.com/javafx/26"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="os.infinitytech.os_front_infinitytech.controller.HomeController">
+            fx:controller="os.infinitytech.os_front_infinitytech.controller.initial.HomeController">
 
     <children>
         <!-- Alterado o alinhamento para TOP_CENTER para empurrar o conteúdo para cima -->

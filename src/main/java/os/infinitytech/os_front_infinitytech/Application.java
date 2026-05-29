@@ -4,7 +4,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -12,7 +11,7 @@ public class Application extends javafx.application.Application {
     @Override
     public void start(Stage stage) throws IOException {
         // Carrega o arquivo FXML
-        Parent root = FXMLLoader.load(getClass().getResource("/os_front_infinitytech/fxml/login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/os_front_infinitytech/fxml/initial/login.fxml"));
 
         // Cria a cena
         Scene scene = new Scene(root);

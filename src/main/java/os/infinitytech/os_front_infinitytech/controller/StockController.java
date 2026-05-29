@@ -1,5 +1,6 @@
 package os.infinitytech.os_front_infinitytech.controller;
 
+import javafx.animation.PauseTransition;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -9,20 +10,17 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-
+import javafx.util.Duration;
+import os.infinitytech.os_front_infinitytech.controller.dialog.DialogStockController;
 import os.infinitytech.os_front_infinitytech.model.ProduModel;
-import os.infinitytech.os_front_infinitytech.service.ProduService;
-
+import os.infinitytech.os_front_infinitytech.service.StockService;
 import java.io.IOException;
 import java.util.List;
 
-public class EstoqueController {
+public class StockController {
 
     @FXML private TableView<ProduModel> tblEstoque;
     @FXML private TableColumn<ProduModel, String> colCodigo;
@@ -33,13 +31,15 @@ public class EstoqueController {
     @FXML private TableColumn<ProduModel, String> colValorCompra;
     @FXML private TableColumn<ProduModel, String> colValorVenda;
 
+    @FXML private TextField txtPesquisa;
+
     // Componentes de Paginação injetados do FXML
     @FXML private Button btnPaginaAnterior;
     @FXML private Button btnProximaPagina;
     @FXML private Label lblPaginaAtual;
 
     private final ObservableList<ProduModel> listaProdutos = FXCollections.observableArrayList();
-    private final ProduService produService = new ProduService();
+    private final StockService stockService = new StockService();
 
     // Controladores de estado da paginação (Backend Spring costuma ser indexado em 0)
     private int paginaAtual = 0;
@@ -48,9 +48,34 @@ public class EstoqueController {
     public void initialize() {
         configurarColunas();
         carregarDados();
+
+        //"Escuta" duplo clique para abrir tela de editar item.
+        tblEstoque.setOnMouseClicked(event ->{
+            //Pega a contagem dos cliques | Verifica se o item da tabela está vazia.
+            if(event.getClickCount() == 2 && tblEstoque.getSelectionModel().getSelectedItem() != null) {
+                ProduModel produtoSelecionado = tblEstoque.getSelectionModel().getSelectedItem();
+                handleEditar(produtoSelecionado);
+            }
+        });
+
+        // Cria um cronomentro para dar tempo de o usuario escrever.
+        PauseTransition debounce = new PauseTransition(Duration.millis(400));
+
+        // Define o que acontece quando o usuário para de digitar.
+        debounce.setOnFinished(event -> {
+            paginaAtual = 0; // Reseta para a primeira página em uma nova busca
+            carregarDados(); // Chama o carregador que agora engloba a busca
+        });
+
+        // Escuta cada tecla digitada no campo de pesquisa para disparar o timer
+        txtPesquisa.textProperty().addListener((observable, oldValue, newValue) -> {
+            debounce.playFromStart();
+        });
     }
 
     private void configurarColunas() {
+
+        //Exibição das informações nas células.
         colCodigo.setCellValueFactory(cell -> cell.getValue().codigoProperty());
         colNome.setCellValueFactory(cell -> cell.getValue().nomeProperty());
         colMarca.setCellValueFactory(cell -> cell.getValue().marcaProperty());
@@ -58,6 +83,7 @@ public class EstoqueController {
         colQuantidade.setCellValueFactory(cell -> cell.getValue().quantidadeProperty());
         colValorCompra.setCellValueFactory(cell -> cell.getValue().valorCompraProperty());
         colValorVenda.setCellValueFactory(cell -> cell.getValue().valorVendaProperty());
+
     }
 
     @FXML
@@ -66,11 +92,12 @@ public class EstoqueController {
         btnPaginaAnterior.setDisable(true);
         btnProximaPagina.setDisable(true);
 
+        String termoTratado = txtPesquisa.getText() != null ? txtPesquisa.getText().trim() : "";
+
         Task<List<ProduModel>> task = new Task<>() {
             @Override
             protected List<ProduModel> call() throws Exception {
-                // Passando a página atual de forma correta para o Service
-                return produService.buscarProdutos(paginaAtual);
+                return stockService.pesquisarProdutos(termoTratado, paginaAtual);
             }
         };
 
@@ -131,7 +158,7 @@ public class EstoqueController {
     @FXML
     private void handleAdicionar(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialogProdu.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialog/dialogStock.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -159,7 +186,7 @@ public class EstoqueController {
     @FXML
     private void handleVoltar(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/initial/home.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
@@ -173,6 +200,32 @@ public class EstoqueController {
             stage.show();
         } catch (IOException e) {
             System.err.println("Erro ao voltar:");
+            e.printStackTrace();
+        }
+    }
+
+    private void handleEditar(ProduModel produ){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialog/dialogEditStock.fxml"));
+            Parent root = loader.load();
+
+            //Pega o controller da tela que vai receber produ.
+            DialogStockController dialogController = loader.getController();
+            //Joga o produ nesse metodo dentro do controller pego.
+            dialogController.initProdu(produ);
+
+            Stage stage = new Stage();
+            stage.setTitle("Infinity Tech - Editar produto");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            stage.showAndWait();
+
+            carregarDados();
+
+        } catch (IOException e) {
+            System.err.println("Erro ao abrir tela");
             e.printStackTrace();
         }
     }

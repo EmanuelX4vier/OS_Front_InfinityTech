@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
 
-public class OrdemModel {
+public class ServiceModel {
 
     @SerializedName("clientId")
     private Long clientId;

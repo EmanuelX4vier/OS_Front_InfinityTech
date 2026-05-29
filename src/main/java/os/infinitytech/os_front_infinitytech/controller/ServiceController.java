@@ -16,29 +16,29 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
-import os.infinitytech.os_front_infinitytech.model.OrdemModel;
-import os.infinitytech.os_front_infinitytech.service.OrdemService;
+import os.infinitytech.os_front_infinitytech.model.ServiceModel;
+import os.infinitytech.os_front_infinitytech.service.ServiceService;
 import os.infinitytech.os_front_infinitytech.service.ClientService;
 
 import java.io.IOException;
 import java.util.List;
 
-public class OrdemController {
+public class ServiceController {
 
-    @FXML private TableView<OrdemModel> tblOrdens;
-    @FXML private TableColumn<OrdemModel, String> colClientId;
-    @FXML private TableColumn<OrdemModel, String> colClient;
-    @FXML private TableColumn<OrdemModel, String> colSerial;
-    @FXML private TableColumn<OrdemModel, String> colDescricao;
-    @FXML private TableColumn<OrdemModel, String> colStatus;
-    @FXML private TableColumn<OrdemModel, String> colDataCadastro;
+    @FXML private TableView<ServiceModel> tblOrdens;
+    @FXML private TableColumn<ServiceModel, String> colClientId;
+    @FXML private TableColumn<ServiceModel, String> colClient;
+    @FXML private TableColumn<ServiceModel, String> colSerial;
+    @FXML private TableColumn<ServiceModel, String> colDescricao;
+    @FXML private TableColumn<ServiceModel, String> colStatus;
+    @FXML private TableColumn<ServiceModel, String> colDataCadastro;
 
     @FXML private Button btnOrdemAnterior;
     @FXML private Button btnOrdemProxima;
     @FXML private Label lblOrdemPagina;
 
-    private final ObservableList<OrdemModel> listaOrdens = FXCollections.observableArrayList();
-    private final OrdemService ordemService = new OrdemService();
+    private final ObservableList<ServiceModel> listaOrdens = FXCollections.observableArrayList();
+    private final ServiceService ordemService = new ServiceService();
     private final ClientService clientService = new ClientService(); // Necessário para o buscarOrdens do seu Service
 
     private int paginaAtual = 0;
@@ -64,16 +64,16 @@ public class OrdemController {
         btnOrdemAnterior.setDisable(true);
         btnOrdemProxima.setDisable(true);
 
-        Task<List<OrdemModel>> task = new Task<>() {
+        Task<List<ServiceModel>> task = new Task<>() {
             @Override
-            protected List<OrdemModel> call() throws Exception {
+            protected List<ServiceModel> call() throws Exception {
                 // Passa o clientService e a página correta conforme especificado no seu OrdemService
                 return ordemService.buscarOrdens(clientService, paginaAtual);
             }
         };
 
         task.setOnSucceeded(event -> {
-            List<OrdemModel> ordens = task.getValue();
+            List<ServiceModel> ordens = task.getValue();
 
             Platform.runLater(() -> {
                 listaOrdens.clear();
@@ -113,8 +113,8 @@ public class OrdemController {
     @FXML
     private void handleAdicionar() {
         try {
-            // 🔥 CORREÇÃO: Garante o caminho e nome exato do seu arquivo FXML (ajuste se for ordemDialog.fxml)
-            String fxmlPath = "/os_front_infinitytech/fxml/ordemDialog.fxml";
+            // 🔥 CORREÇÃO: Garante o caminho e nome exato do seu arquivo FXML (ajuste se for serviceDialog.fxml)
+            String fxmlPath = "/os_front_infinitytech/fxml/dialog/serviceDialog.fxml";
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
@@ -159,7 +159,7 @@ public class OrdemController {
     @FXML
     private void handleVoltar(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/initial/home.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

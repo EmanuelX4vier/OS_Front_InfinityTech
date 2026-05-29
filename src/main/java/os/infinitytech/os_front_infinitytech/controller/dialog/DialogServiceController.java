@@ -1,4 +1,4 @@
-package os.infinitytech.os_front_infinitytech.controller;
+package os.infinitytech.os_front_infinitytech.controller.dialog;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -6,12 +6,12 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
-import os.infinitytech.os_front_infinitytech.model.OrdemModel;
+import os.infinitytech.os_front_infinitytech.model.ServiceModel;
 import os.infinitytech.os_front_infinitytech.model.ClientModel;
-import os.infinitytech.os_front_infinitytech.service.OrdemService;
+import os.infinitytech.os_front_infinitytech.service.ServiceService;
 import os.infinitytech.os_front_infinitytech.service.ClientService;
 
-public class DialogOrdemController {
+public class DialogServiceController {
 
     @FXML private TextField txtClientId;
     @FXML private TextField txtClientNome;
@@ -20,7 +20,7 @@ public class DialogOrdemController {
     @FXML private TextArea txtDescricao;
     @FXML private Label lblMensagem;
 
-    private final OrdemService service = new OrdemService();
+    private final ServiceService service = new ServiceService();
     private final ClientService clientService = new ClientService();
 
     @FXML
@@ -118,7 +118,7 @@ public class DialogOrdemController {
                 // Aqui o parse é 100% seguro pois já validamos acima
                 Long clientId = Long.parseLong(idText);
 
-                OrdemModel ordem = new OrdemModel();
+                ServiceModel ordem = new ServiceModel();
                 ordem.setClientId(clientId);
                 ordem.setSerial(serial);
                 ordem.setDescricao(txtDescricao.getText() != null ? txtDescricao.getText().trim() : "");

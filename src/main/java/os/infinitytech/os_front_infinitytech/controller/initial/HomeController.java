@@ -1,4 +1,4 @@
-package os.infinitytech.os_front_infinitytech.controller;
+package os.infinitytech.os_front_infinitytech.controller.initial;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -17,7 +17,7 @@ public class HomeController {
     @FXML
     private void handleEstoque(ActionEvent event) {
         // O caminho deve ser relativo ao local onde o FXMLLoader procura os recursos
-        carregarTela("/os_front_infinitytech/fxml/estoque.fxml", "Infinity Tech - Gerenciamento de Estoque", event);
+        carregarTela("/os_front_infinitytech/fxml/stock.fxml", "Infinity Tech - Gerenciamento de Estoque", event);
     }
 
     @FXML
@@ -27,7 +27,7 @@ public class HomeController {
 
     @FXML
     private void handleServicos(ActionEvent event) {
-        carregarTela("/os_front_infinitytech/fxml/ordem.fxml", "Infinity Tech - Gerenciamento de Ordens", event);
+        carregarTela("/os_front_infinitytech/fxml/service.fxml", "Infinity Tech - Gerenciamento de Ordens", event);
     }
 
     /**

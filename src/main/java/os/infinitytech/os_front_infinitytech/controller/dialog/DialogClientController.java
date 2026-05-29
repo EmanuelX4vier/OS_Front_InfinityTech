@@ -1,4 +1,4 @@
-package os.infinitytech.os_front_infinitytech.controller;
+package os.infinitytech.os_front_infinitytech.controller.dialog;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;

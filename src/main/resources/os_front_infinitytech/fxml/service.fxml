@@ -10,7 +10,7 @@
             stylesheets="@../css/style.css"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="os.infinitytech.os_front_infinitytech.controller.OrdemController">
+            fx:controller="os.infinitytech.os_front_infinitytech.controller.ServiceController">
 
     <children>
         <VBox spacing="25.0"

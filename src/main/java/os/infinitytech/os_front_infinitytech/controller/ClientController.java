@@ -130,7 +130,7 @@ public class ClientController {
     @FXML
     private void handleAdicionar() {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialogClient.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialog/dialogClient.fxml"));
             Parent root = loader.load();
 
             Stage stage = new Stage();
@@ -151,7 +151,7 @@ public class ClientController {
     @FXML
     private void handleVoltar(ActionEvent event) {
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/home.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/initial/home.fxml"));
             Parent root = loader.load();
 
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();

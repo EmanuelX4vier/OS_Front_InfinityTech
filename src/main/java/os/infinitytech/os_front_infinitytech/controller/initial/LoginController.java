@@ -1,4 +1,4 @@
-package os.infinitytech.os_front_infinitytech.controller;
+package os.infinitytech.os_front_infinitytech.controller.initial;
 
 import javafx.application.Platform;
 import javafx.concurrent.Task;
@@ -92,7 +92,7 @@ public class LoginController {
     private void abrirTelaPrincipal() {
         try {
             // AJUSTE: O caminho deve apontar para home.fxml, não para o login novamente
-            String path = "/os_front_infinitytech/fxml/home.fxml";
+            String path = "/os_front_infinitytech/fxml/initial/home.fxml";
             URL fxmlLocation = getClass().getResource(path);
 
             if (fxmlLocation == null) {

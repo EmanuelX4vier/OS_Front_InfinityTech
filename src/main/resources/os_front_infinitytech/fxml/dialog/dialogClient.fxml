@@ -3,15 +3,16 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.*?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="620.0"
-            prefWidth="720.0"
+<AnchorPane prefHeight="500.0"
+            prefWidth="600.0"
             styleClass="main-background"
-            stylesheets="@../css/style.css"
+            stylesheets="@../../css/style.css"
             xmlns="http://javafx.com/javafx/21"
             xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="os.infinitytech.os_front_infinitytech.controller.DialogOrdemController">
+            fx:controller="os.infinitytech.os_front_infinitytech.controller.dialog.DialogClientController">
 
     <children>
 
@@ -23,122 +24,89 @@
 
             <children>
 
+                <!-- HEADER -->
                 <VBox spacing="8.0">
 
                     <children>
 
-                        <Text text="NOVA ORDEM"
+                        <Text text="NOVO CLIENT"
                               fill="WHITE">
 
                             <font>
-                                <Font name="System Bold"
-                                      size="24.0"/>
+                                <Font name="System Bold" size="24.0"/>
                             </font>
+
                         </Text>
 
-                        <Text text="Infinity Tech - Cadastro de Ordem"
+                        <Text text="Infinity Tech - Cadastro de Client"
                               fill="#d4af37">
 
                             <font>
                                 <Font size="14.0"/>
                             </font>
+
                         </Text>
 
                     </children>
+
                 </VBox>
 
-                <GridPane hgap="20.0"
-                          vgap="18.0">
+                <!-- FORM -->
+                <GridPane hgap="20.0" vgap="18.0">
 
                     <padding>
-                        <Insets top="10"
-                                right="10"
-                                bottom="10"
-                                left="10"/>
+                        <Insets top="10" right="10" bottom="10" left="10"/>
                     </padding>
 
                     <columnConstraints>
-
                         <ColumnConstraints percentWidth="30"/>
-
                         <ColumnConstraints percentWidth="70"/>
-
                     </columnConstraints>
 
                     <children>
 
-                        <!-- SERIAL -->
-
-                        <Label text="Serial:"
-                               textFill="WHITE"
+                        <!-- NOME -->
+                        <Label text="Nome:"
                                GridPane.columnIndex="0"
-                               GridPane.rowIndex="0"/>
+                               GridPane.rowIndex="0"
+                               textFill="WHITE"/>
 
-                        <TextField fx:id="txtSerial"
-                                   promptText="Digite o serial do equipamento"
+                        <TextField fx:id="txtNome"
+                                   promptText="Digite o nome"
                                    GridPane.columnIndex="1"
                                    GridPane.rowIndex="0"/>
 
-                        <!-- CLIENT ID -->
-
-                        <Label text="Client ID:"
-                               textFill="WHITE"
+                        <!-- TELEFONE -->
+                        <Label text="Telefone:"
                                GridPane.columnIndex="0"
-                               GridPane.rowIndex="1"/>
+                               GridPane.rowIndex="1"
+                               textFill="WHITE"/>
 
-                        <TextField fx:id="txtClientId"
-                                   promptText="Digite o ID do client"
+                        <TextField fx:id="txtTelefone"
+                                   promptText="Digite o telefone"
                                    GridPane.columnIndex="1"
                                    GridPane.rowIndex="1"/>
 
-                        <!-- CLIENT NOME -->
-
-                        <Label text="Client:"
-                               textFill="WHITE"
+                        <!-- ENDEREÇO -->
+                        <Label text="Endereço:"
                                GridPane.columnIndex="0"
-                               GridPane.rowIndex="2"/>
+                               GridPane.rowIndex="2"
+                               textFill="WHITE"/>
 
-                        <TextField fx:id="txtClientNome"
-                                   editable="true"
-                                   promptText="Nome do client"
+                        <TextField fx:id="txtEndereco"
+                                   promptText="Digite o endereço"
                                    GridPane.columnIndex="1"
                                    GridPane.rowIndex="2"/>
 
-                        <!-- STATUS -->
-
-                        <Label text="Status:"
-                               textFill="WHITE"
-                               GridPane.columnIndex="0"
-                               GridPane.rowIndex="3"/>
-
-                        <ComboBox fx:id="cbStatus"
-                                  GridPane.columnIndex="1"
-                                  GridPane.rowIndex="3"/>
-
-                        <!-- DESCRIÇÃO -->
-
-                        <Label text="Descrição:"
-                               textFill="WHITE"
-                               GridPane.columnIndex="0"
-                               GridPane.rowIndex="4"/>
-
-                        <TextArea fx:id="txtDescricao"
-                                  prefHeight="220"
-                                  wrapText="true"
-                                  promptText="Digite a descrição do equipamento/problema"
-                                  GridPane.columnIndex="1"
-                                  GridPane.rowIndex="4"/>
-
                     </children>
+
                 </GridPane>
 
                 <!-- MENSAGEM -->
-
                 <Label fx:id="lblMensagem"
                        textFill="WHITE"/>
 
                 <!-- BOTÕES -->
-
                 <HBox spacing="15.0"
                       alignment="CENTER_RIGHT">
 
@@ -158,9 +126,13 @@
                                 styleClass="login-button"/>
 
                     </children>
+
                 </HBox>
 
             </children>
+
         </VBox>
+
     </children>
+
 </AnchorPane>
