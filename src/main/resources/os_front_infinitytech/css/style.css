@@ -1,110 +1,160 @@
-/* Fundo Principal com Imagem */
+/* --- CONFIGURAÇÕES GERAIS --- */
+.root {
+    -fx-background-color: #000000;
+}
+
 .main-background {
     -fx-background-color: #0F0F0F;
-    -fx-background-image: url("../image/default.png");
+    -fx-background-image: url("../image/default.jpg");
     -fx-background-size: cover;
     -fx-background-position: center;
     -fx-background-repeat: no-repeat;
 }
 
-/* Campos de entrada (User e Password) */
-.login-input {
-    -fx-alignment: center;
-    -fx-background-color: rgba(30, 30, 30, 0.8);
-    -fx-background-radius: 10;
-    -fx-border-color: rgba(212, 175, 55, 0.3);
-    -fx-border-radius: 10;
-    -fx-text-fill: white;
-    -fx-padding: 12;
+/* --- ESTILO PADRÃO DE TÍTULOS (INFINITY TECH DESIGN) --- */
+.dashboard-title {
+    -fx-font-family: "Impact", sans-serif;
+    -fx-fill: #FFD700;
+    -fx-font-size: 48px;
+    -fx-letter-spacing: 10px;
 }
 
-.login-input:focused {
-    -fx-border-color: #d4af37;
-    -fx-effect: dropshadow(gaussian, rgba(212, 175, 55, 0.3), 10, 0, 0, 0);
-}
-
-/* Botão Estilizado (Login e Voltar) */
-.login-button {
-    -fx-background-color: linear-gradient(to bottom right, #1a1a1a, #000000);
-    -fx-text-fill: #d4af37;
-    -fx-border-color: #d4af37;
-    -fx-border-radius: 8;
-    -fx-background-radius: 8;
+.dashboard-subtitle {
+    -fx-font-family: "Arial", sans-serif;
+    -fx-fill: rgba(255, 215, 0, 0.5);
+    -fx-font-size: 14px;
+    -fx-letter-spacing: 6px;
     -fx-font-weight: bold;
+}
+
+/* --- ESTILO PADRÃO DE BOTÕES (INFINITY TECH DESIGN) --- */
+.module-button {
+    /* Fundo preto translúcido */
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+    -fx-border-color: rgba(255, 215, 0, 0.4);
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+
+    /* Tipografia do botão */
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "Impact", sans-serif;
+    -fx-font-size: 18px;
+    -fx-font-weight: bold;
+    -fx-letter-spacing: 4px;
+
+    /* Dimensões e espaçamento */
+    -fx-padding: 0 20 0 20;
+    -fx-pref-height: 55px;
+    -fx-pref-width: 400px;
     -fx-cursor: hand;
 }
 
-.login-button:hover {
-    -fx-background-color: #d4af37;
-    -fx-text-fill: black;
+/* Estado de Hover (Dourado translúcido) */
+.module-button:hover {
+    -fx-background-color: rgba(255, 215, 0, 0.2);
+    -fx-border-color: #FFD700;
 }
 
-/* Links */
-.forgot-link {
-    -fx-text-fill: #d4af37;
-    -fx-underline: false;
+/* Componentes internos dos botões */
+.button-text {
+    -fx-fill: #FFFFFF;
+    -fx-font-size: 19px;
+    -fx-font-weight: 700;
+    -fx-letter-spacing: 5px;
+    -fx-text-alignment: left;
 }
 
-.forgot-link:hover {
-    -fx-text-fill: white;
+.button-arrow {
+    -fx-fill: #FFD700;
+    -fx-font-size: 18px;
+    -fx-font-weight: 900;
 }
 
-/* --- ESTILIZAÇÃO DA TABELA --- */
-
-.modern-table {
-    -fx-background-color: transparent;
+/* Tabela estilo Infinity Tech */
+/* Corrigindo o fundo dos cabeçalhos da tabela */
+.table-view .column-header-background {
+    /* O valor 0.15 representa 15% de opacidade, ajustável conforme seu gosto */
+    -fx-background-color: rgba(255, 215, 0, 0.09);
     -fx-background-insets: 0;
-    -fx-border-color: rgba(212, 175, 55, 0.3);
-    -fx-border-radius: 5;
+    -fx-padding: 0;
 }
 
-/* Força a cor do texto para Branco em todas as células */
-.modern-table .table-cell {
-    -fx-text-fill: white !important;
-    -fx-alignment: CENTER_LEFT;
-    -fx-padding: 10;
+.table-view .column-header {
+    -fx-background-color: transparent;
+    -fx-border-color: rgba(255, 215, 0, 0.2);
+    -fx-border-width: 0 0 1 0;
+}
+
+.table-view .column-header .label {
+    -fx-text-fill: #FFD700;
+    -fx-font-family: "Impact", sans-serif;
+    -fx-font-size: 12px;
+    -fx-letter-spacing: 2px;
+    -fx-alignment: CENTER;
+}
+
+.table-row-cell {
+    -fx-background-color: #000000;
+    -fx-border-color: rgba(255, 215, 0, 0.03);
+}
+
+.table-cell {
+    -fx-text-fill: #E8E8E8;
+    -fx-font-family: "Arial";
     -fx-font-size: 13px;
 }
 
-/* Estilo das Linhas */
-.modern-table .table-row-cell {
-    -fx-background-color: rgba(30, 30, 30, 0.6);
-    -fx-border-color: transparent transparent rgba(212, 175, 55, 0.1) transparent;
-}
-
-/* Hover e Seleção */
-.modern-table .table-row-cell:hover {
-    -fx-background-color: rgba(212, 175, 55, 0.15);
-}
-
-.modern-table .table-row-cell:selected {
-    -fx-background-color: #d4af37;
-}
-
-/* Inverte cor do texto na linha selecionada para dar contraste */
-.modern-table .table-row-cell:selected .table-cell {
-    -fx-text-fill: black !important;
-}
-
-/* Cabeçalho da Tabela */
-.modern-table .column-header {
-    -fx-background-color: linear-gradient(to bottom, #2a2a2a, #0f0f0f);
-    -fx-border-color: rgba(212, 175, 55, 0.2);
-    -fx-size: 40;
-}
-
-.modern-table .column-header .label {
-    -fx-text-fill: #d4af37;
+/* --- ESTILO PADRÃO DE BOTÕES --- */
+.module-button {
+    -fx-background-color: rgba(0, 0, 0, 0.8);
+    -fx-border-color: rgba(255, 215, 0, 0.4);
+    -fx-border-width: 1;
+    -fx-border-radius: 2;
+    -fx-background-radius: 2;
+    -fx-text-fill: #FFFFFF;
+    -fx-font-family: "Impact", sans-serif;
+    -fx-font-size: 18px;
     -fx-font-weight: bold;
-    -fx-alignment: CENTER_LEFT;
+    -fx-letter-spacing: 4px;
+    -fx-padding: 0 20 0 20;
+    -fx-pref-height: 55px;
+    -fx-pref-width: 400px;
+    -fx-cursor: hand;
 }
 
-/* Remove fundo branco dos cantos da tabela */
-.modern-table .corner {
-    -fx-background-color: transparent;
-}
-
-/* Centralização para colunas específicas (como QTD) */
-.coluna-centralizada {
+/* Novo Molde para botões quadrados pequenos */
+.btn-square {
+    -fx-pref-width: 40px;
+    -fx-pref-height: 40px;
+    -fx-padding: 0;
     -fx-alignment: CENTER;
 }
+
+.module-button:hover {
+    -fx-background-color: rgba(255, 215, 0, 0.2);
+    -fx-border-color: #FFD700;
+}
+
+/* --- ELEMENTOS EXTRAS --- */
+.table-view {
+    -fx-background-color: #050505;
+    -fx-border-color: rgba(255, 215, 0, 0.15);
+}
+
+.cyber-input {
+    -fx-background-color: rgba(0, 0, 0, 0.5);
+    -fx-border-color: rgba(255, 215, 0, 0.3);
+    -fx-border-width: 1;
+    -fx-text-fill: white;
+    -fx-prompt-text-fill: rgba(255, 255, 255, 0.3);
+    -fx-font-family: "Arial";
+    -fx-font-size: 14px;
+}
+
+.cyber-input:focused {
+    -fx-border-color: #FFD700;
+}
+
+.status-success { -fx-text-fill: #4ADE80; }
+.status-warning { -fx-text-fill: #FFD700; }
