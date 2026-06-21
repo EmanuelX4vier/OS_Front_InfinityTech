@@ -3,19 +3,17 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.text.*?>
 
 <AnchorPane prefHeight="500.0"
             prefWidth="600.0"
-            styleClass="main-background"
+            styleClass="dialog-background, dialog-border"
             stylesheets="@../../css/style.css"
-            xmlns="http://javafx.com/javafx/21"
+            xmlns="http://javafx.com/javafx/26"
             xmlns:fx="http://javafx.com/fxml/1"
             fx:controller="os.infinitytech.os_front_infinitytech.controller.dialog.DialogClientController">
 
     <children>
-
         <VBox spacing="25.0"
               AnchorPane.topAnchor="30.0"
               AnchorPane.bottomAnchor="30.0"
@@ -23,116 +21,50 @@
               AnchorPane.rightAnchor="30.0">
 
             <children>
-
-                <!-- HEADER -->
-                <VBox spacing="8.0">
-
+                <VBox spacing="2.0">
                     <children>
-
-                        <Text text="NOVO CLIENT"
-                              fill="WHITE">
-
-                            <font>
-                                <Font name="System Bold" size="24.0"/>
-                            </font>
-
-                        </Text>
-
-                        <Text text="Infinity Tech - Cadastro de Client"
-                              fill="#d4af37">
-
-                            <font>
-                                <Font size="14.0"/>
-                            </font>
-
-                        </Text>
-
+                        <Text text="NOVO CLIENTE" styleClass="dashboard-title" style="-fx-font-size: 24px; -fx-letter-spacing: 4px;"/>
+                        <Text text="INFINITY TECH - CADASTRO DE CLIENTE" styleClass="dashboard-subtitle" style="-fx-font-size: 10px; -fx-letter-spacing: 2px;"/>
                     </children>
-
                 </VBox>
 
-                <!-- FORM -->
-                <GridPane hgap="20.0" vgap="18.0">
-
+                <GridPane hgap="20.0" vgap="18.0" VBox.vgrow="ALWAYS">
                     <padding>
                         <Insets top="10" right="10" bottom="10" left="10"/>
                     </padding>
-
                     <columnConstraints>
                         <ColumnConstraints percentWidth="30"/>
                         <ColumnConstraints percentWidth="70"/>
                     </columnConstraints>
 
                     <children>
+                        <Label text="NOME:" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-text-fill: #FFD700; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtNome" promptText="Digite o nome" styleClass="cyber-input" GridPane.columnIndex="1" GridPane.rowIndex="0" prefHeight="40"/>
 
-                        <!-- NOME -->
-                        <Label text="Nome:"
-                               GridPane.columnIndex="0"
-                               GridPane.rowIndex="0"
-                               textFill="WHITE"/>
+                        <Label text="TELEFONE:" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-text-fill: #FFD700; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtTelefone" promptText="Digite o telefone" styleClass="cyber-input" GridPane.columnIndex="1" GridPane.rowIndex="1" prefHeight="40"/>
 
-                        <TextField fx:id="txtNome"
-                                   promptText="Digite o nome"
-                                   GridPane.columnIndex="1"
-                                   GridPane.rowIndex="0"/>
-
-                        <!-- TELEFONE -->
-                        <Label text="Telefone:"
-                               GridPane.columnIndex="0"
-                               GridPane.rowIndex="1"
-                               textFill="WHITE"/>
-
-                        <TextField fx:id="txtTelefone"
-                                   promptText="Digite o telefone"
-                                   GridPane.columnIndex="1"
-                                   GridPane.rowIndex="1"/>
-
-                        <!-- ENDEREÇO -->
-                        <Label text="Endereço:"
-                               GridPane.columnIndex="0"
-                               GridPane.rowIndex="2"
-                               textFill="WHITE"/>
-
-                        <TextField fx:id="txtEndereco"
-                                   promptText="Digite o endereço"
-                                   GridPane.columnIndex="1"
-                                   GridPane.rowIndex="2"/>
-
+                        <Label text="ENDEREÇO:" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-text-fill: #FFD700; -fx-font-weight: bold;"/>
+                        <TextField fx:id="txtEndereco" promptText="Digite o endereço" styleClass="cyber-input" GridPane.columnIndex="1" GridPane.rowIndex="2" prefHeight="40"/>
                     </children>
-
                 </GridPane>
 
-                <!-- MENSAGEM -->
-                <Label fx:id="lblMensagem"
-                       textFill="WHITE"/>
+                <Label fx:id="lblMensagem" textFill="WHITE"/>
 
-                <!-- BOTÕES -->
-                <HBox spacing="15.0"
-                      alignment="CENTER_RIGHT">
-
+                <HBox spacing="15.0" alignment="CENTER_RIGHT">
                     <children>
-
                         <Button text="CANCELAR"
                                 onAction="#handleCancelar"
-                                prefWidth="120"
-                                prefHeight="40"
-                                styleClass="login-button"
-                                style="-fx-background-color: #555555;"/>
+                                styleClass="module-button"
+                                style="-fx-pref-width: 140px; -fx-background-color: rgba(85,85,85,0.5);"/>
 
                         <Button text="SALVAR"
                                 onAction="#handleSalvar"
-                                prefWidth="120"
-                                prefHeight="40"
-                                styleClass="login-button"/>
-
+                                styleClass="module-button"
+                                style="-fx-pref-width: 140px;"/>
                     </children>
-
                 </HBox>
-
             </children>
-
         </VBox>
-
     </children>
-
 </AnchorPane>

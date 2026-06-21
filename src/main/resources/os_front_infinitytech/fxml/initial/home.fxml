@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Text?>
 
 <AnchorPane fx:id="rootPane"
@@ -18,49 +14,20 @@
             fx:controller="os.infinitytech.os_front_infinitytech.controller.initial.HomeController">
 
     <children>
-        <StackPane AnchorPane.topAnchor="0.0"
-                   AnchorPane.bottomAnchor="0.0"
-                   AnchorPane.leftAnchor="0.0"
-                   AnchorPane.rightAnchor="0.0">
+        <StackPane AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                   AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
 
             <VBox alignment="CENTER" spacing="40">
                 <children>
-
                     <VBox alignment="CENTER" spacing="5">
                         <Text text="INFINITY TECH" styleClass="dashboard-title"/>
                         <Text text="PAINEL PRINCIPAL" styleClass="dashboard-subtitle"/>
                     </VBox>
 
-                    <VBox alignment="CENTER" spacing="15">
-                        <Button onAction="#handleEstoque" styleClass="module-button">
-                            <graphic>
-                                <HBox alignment="CENTER_LEFT" prefWidth="350">
-                                    <Text text="ESTOQUE" styleClass="button-text" />
-                                    <HBox HBox.hgrow="ALWAYS" />
-                                    <Text text=">" styleClass="button-arrow" />
-                                </HBox>
-                            </graphic>
-                        </Button>
-
-                        <Button onAction="#handleClientes" styleClass="module-button">
-                            <graphic>
-                                <HBox alignment="CENTER_LEFT" prefWidth="350">
-                                    <Text text="CLIENTES" styleClass="button-text" />
-                                    <HBox HBox.hgrow="ALWAYS" />
-                                    <Text text=">" styleClass="button-arrow" />
-                                </HBox>
-                            </graphic>
-                        </Button>
-
-                        <Button onAction="#handleServicos" styleClass="module-button">
-                            <graphic>
-                                <HBox alignment="CENTER_LEFT" prefWidth="350">
-                                    <Text text="SERVIÇOS" styleClass="button-text" />
-                                    <HBox HBox.hgrow="ALWAYS" />
-                                    <Text text=">" styleClass="button-arrow" />
-                                </HBox>
-                            </graphic>
-                        </Button>
+                    <VBox alignment="CENTER" spacing="15" styleClass="module-container">
+                        <Button onAction="#handleEstoque" styleClass="module-button" text="ESTOQUE" />
+                        <Button onAction="#handleClientes" styleClass="module-button" text="CLIENTES" />
+                        <Button onAction="#handleServicos" styleClass="module-button" text="SERVIÇOS" />
                     </VBox>
                 </children>
             </VBox>

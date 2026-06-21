@@ -17,6 +17,8 @@ import javafx.util.Duration;
 import os.infinitytech.os_front_infinitytech.controller.dialog.DialogStockController;
 import os.infinitytech.os_front_infinitytech.model.ProduModel;
 import os.infinitytech.os_front_infinitytech.service.StockService;
+import os.infinitytech.os_front_infinitytech.util.StatusColor;
+
 import java.io.IOException;
 import java.util.List;
 
@@ -63,8 +65,8 @@ public class StockController {
 
         // Define o que acontece quando o usuário para de digitar.
         debounce.setOnFinished(event -> {
-            paginaAtual = 0; // Reseta para a primeira página em uma nova busca
-            carregarDados(); // Chama o carregador que agora engloba a busca
+            paginaAtual = 0; // Reseta para a primeira página em uma nova busca.
+            carregarDados(); // Chama o carregador que agora engloba a busca.
         });
 
         // Escuta cada tecla digitada no campo de pesquisa para disparar o timer
@@ -80,6 +82,7 @@ public class StockController {
         colNome.setCellValueFactory(cell -> cell.getValue().nomeProperty());
         colMarca.setCellValueFactory(cell -> cell.getValue().marcaProperty());
         colStatus.setCellValueFactory(cell -> cell.getValue().statusProperty());
+        colStatus.setCellFactory(column -> new StatusColor<ProduModel>());
         colQuantidade.setCellValueFactory(cell -> cell.getValue().quantidadeProperty());
         colValorCompra.setCellValueFactory(cell -> cell.getValue().valorCompraProperty());
         colValorVenda.setCellValueFactory(cell -> cell.getValue().valorVendaProperty());

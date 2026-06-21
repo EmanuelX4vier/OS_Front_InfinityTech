@@ -149,6 +149,19 @@ public class DialogStockController {
         fecharJanela();
     }
 
+    @FXML
+    private void handleApagar(){
+        try{
+            if(txtCodigo != null){
+                String codigo = txtCodigo.getText();
+                stockService.deletarProduto(codigo);
+                fecharJanela();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     private void fecharJanela() {
         Stage stage = (Stage) txtNome.getScene().getWindow();
         stage.close();

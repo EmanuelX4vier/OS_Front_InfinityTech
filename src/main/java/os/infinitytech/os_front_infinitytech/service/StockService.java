@@ -82,7 +82,7 @@ public class StockService {
         return apiClient.patch("/products/" + codigo, json);
     }
 
-    public void deletarProduto(Long id) throws Exception {
-        apiClient.delete("/products/" + id);
+    public void deletarProduto(String codigo) throws Exception {
+        apiClient.delete("/products/" + codigo);
     }
 }

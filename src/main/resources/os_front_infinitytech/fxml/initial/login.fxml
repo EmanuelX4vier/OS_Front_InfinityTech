@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.PasswordField?>
@@ -23,31 +22,29 @@
         <StackPane AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0"
                    AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
 
-            <VBox alignment="CENTER" maxWidth="350" maxHeight="400"
-                  style="-fx-background-color: rgba(0,0,0,0.9); -fx-border-color: rgba(255,215,0,0.3); -fx-border-width: 1; -fx-padding: 30;">
+            <VBox alignment="CENTER" maxWidth="350" maxHeight="400" styleClass="login-container">
 
                 <children>
-                    <Text text="INFINITY TECH" styleClass="dashboard-title" style="-fx-font-size: 32px;" />
+                    <Text text="INFINITY TECH" styleClass="dashboard-title, login-title" />
                     <Text text="SISTEMA DE INVENTÁRIO" styleClass="dashboard-subtitle" />
 
-                    <VBox spacing="15" style="-fx-padding: 20 0 0 0;">
+                    <VBox styleClass="login-form-fields">
                         <children>
-                            <VBox spacing="5">
-                                <Label text="USUÁRIO" style="-fx-text-fill: rgba(255,215,0,0.6); -fx-font-family: 'Arial'; -fx-font-size: 9px; -fx-letter-spacing: 2px;"/>
-                                <TextField fx:id="emailField" promptText="Digite seu usuário" styleClass="cyber-input" prefHeight="35"/>
+                            <VBox styleClass="field-group">
+                                <Label text="USUÁRIO" styleClass="field-label"/>
+                                <TextField fx:id="emailField" promptText="Digite seu usuário" styleClass="cyber-input"/>
                             </VBox>
 
-                            <VBox spacing="5">
-                                <Label text="SENHA" style="-fx-text-fill: rgba(255,215,0,0.6); -fx-font-family: 'Arial'; -fx-font-size: 9px; -fx-letter-spacing: 2px;"/>
-                                <PasswordField fx:id="passwordField" promptText="........" styleClass="cyber-input" prefHeight="35"/>
+                            <VBox styleClass="field-group">
+                                <Label text="SENHA" styleClass="field-label"/>
+                                <PasswordField fx:id="passwordField" promptText="........" styleClass="cyber-input"/>
                             </VBox>
 
-                            <Button maxWidth="Infinity" onAction="#onLogin" prefHeight="40.0"
-                                    styleClass="module-button" text="ENTRAR" />
+                            <Button maxWidth="Infinity" onAction="#onLogin" styleClass="module-button" text="ENTRAR" />
                         </children>
                     </VBox>
 
-                    <Label fx:id="lblMensagem" text="" style="-fx-text-fill: #FFD700; -fx-padding: 15 0 0 0;"/>
+                    <Label fx:id="lblMensagem" styleClass="login-message"/>
                 </children>
             </VBox>
         </StackPane>

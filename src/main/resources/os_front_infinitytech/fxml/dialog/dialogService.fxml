@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane prefHeight="620.0"
+            prefWidth="720.0"
+            styleClass="dialog-background, dialog-border"
+            stylesheets="@../../css/style.css"
+            xmlns="http://javafx.com/javafx/26"
+            xmlns:fx="http://javafx.com/fxml/1"
+            fx:controller="os.infinitytech.os_front_infinitytech.controller.dialog.DialogServiceController">
+
+    <children>
+        <VBox spacing="20.0"
+              AnchorPane.bottomAnchor="30.0"
+              AnchorPane.leftAnchor="30.0"
+              AnchorPane.rightAnchor="30.0"
+              AnchorPane.topAnchor="30.0">
+
+            <children>
+                <VBox spacing="2.0">
+                    <children>
+                        <Text text="NOVA ORDEM" styleClass="dashboard-title" style="-fx-font-size: 20px; -fx-letter-spacing: 2px;" />
+                        <Text text="INFINITY TECH - CADASTRO DE ORDEM" styleClass="dashboard-subtitle" style="-fx-font-size: 11px; -fx-letter-spacing: 1px;" />
+                    </children>
+                </VBox>
+
+                <GridPane hgap="15.0" vgap="12.0">
+                    <columnConstraints>
+                        <ColumnConstraints percentWidth="35"/>
+                        <ColumnConstraints percentWidth="65"/>
+                    </columnConstraints>
+                    <children>
+                        <Label text="SERIAL:" textFill="#FFD700" GridPane.columnIndex="0" GridPane.rowIndex="0" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="txtSerial" promptText="Digite o serial" styleClass="cyber-input" GridPane.columnIndex="1" GridPane.rowIndex="0" />
+
+                        <Label text="CLIENT ID:" textFill="#FFD700" GridPane.columnIndex="0" GridPane.rowIndex="1" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="txtClientId" promptText="ID do cliente" styleClass="cyber-input" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+
+                        <Label text="CLIENTE:" textFill="#FFD700" GridPane.columnIndex="0" GridPane.rowIndex="2" style="-fx-font-weight: bold;" />
+                        <TextField fx:id="txtClientNome" promptText="Nome do cliente" styleClass="cyber-input" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+
+                        <Label text="STATUS:" textFill="#FFD700" GridPane.columnIndex="0" GridPane.rowIndex="3" style="-fx-font-weight: bold;" />
+                        <ComboBox fx:id="cbStatus" prefWidth="Infinity" promptText="Selecione..." styleClass="cyber-input" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+
+                        <Label text="DESCRIÇÃO:" textFill="#FFD700" GridPane.columnIndex="0" GridPane.rowIndex="4" style="-fx-font-weight: bold;" />
+                        <TextArea fx:id="txtDescricao" prefHeight="220" promptText="Detalhes do problema" styleClass="cyber-input, cyber-textarea" GridPane.columnIndex="1" GridPane.rowIndex="4" />
+                    </children>
+                </GridPane>
+
+                <HBox alignment="CENTER_RIGHT" spacing="15.0">
+                    <children>
+                        <Button onAction="#handleCancelar" text="CANCELAR"
+                                styleClass="module-button"
+                                style="-fx-pref-width: 120px; -fx-pref-height: 40px; -fx-background-color: rgba(85,85,85,0.5);" />
+                        <Button onAction="#handleSalvar" text="SALVAR"
+                                styleClass="module-button"
+                                style="-fx-pref-width: 120px; -fx-pref-height: 40px;" />
+                    </children>
+                </HBox>
+            </children>
+        </VBox>
+    </children>
+</AnchorPane>

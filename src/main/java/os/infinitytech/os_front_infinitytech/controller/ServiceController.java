@@ -19,6 +19,7 @@ import javafx.stage.Stage;
 import os.infinitytech.os_front_infinitytech.model.ServiceModel;
 import os.infinitytech.os_front_infinitytech.service.ServiceService;
 import os.infinitytech.os_front_infinitytech.service.ClientService;
+import os.infinitytech.os_front_infinitytech.util.StatusColor;
 
 import java.io.IOException;
 import java.util.List;
@@ -56,6 +57,7 @@ public class ServiceController {
         colDescricao.setCellValueFactory(cell -> cell.getValue().descricaoProperty());
         colStatus.setCellValueFactory(cell -> cell.getValue().statusProperty());
         colDataCadastro.setCellValueFactory(cell -> cell.getValue().dataCadastroProperty());
+        colStatus.setCellFactory(column -> new StatusColor<ServiceModel>());
     }
 
     @FXML
@@ -113,8 +115,8 @@ public class ServiceController {
     @FXML
     private void handleAdicionar() {
         try {
-            // 🔥 CORREÇÃO: Garante o caminho e nome exato do seu arquivo FXML (ajuste se for serviceDialog.fxml)
-            String fxmlPath = "/os_front_infinitytech/fxml/dialog/serviceDialog.fxml";
+            // 🔥 CORREÇÃO: Garante o caminho e nome exato do seu arquivo FXML (ajuste se for dialogService.fxml)
+            String fxmlPath = "/os_front_infinitytech/fxml/dialog/dialogService.fxml";
 
             FXMLLoader loader = new FXMLLoader(getClass().getResource(fxmlPath));
             Parent root = loader.load();
