@@ -209,7 +209,7 @@ public class StockController {
 
     private void handleEditar(ProduModel produ){
         try {
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialog/dialogEditStock.fxml"));
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialog/edits/dialogEditStock.fxml"));
             Parent root = loader.load();
 
             //Pega o controller da tela que vai receber produ.

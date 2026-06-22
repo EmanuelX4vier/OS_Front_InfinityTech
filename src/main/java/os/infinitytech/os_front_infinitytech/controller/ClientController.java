@@ -16,6 +16,8 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import os.infinitytech.os_front_infinitytech.controller.dialog.DialogClientController;
+import os.infinitytech.os_front_infinitytech.controller.dialog.DialogStockController;
 import os.infinitytech.os_front_infinitytech.model.ClientModel;
 import os.infinitytech.os_front_infinitytech.service.ClientService;
 
@@ -44,6 +46,13 @@ public class ClientController {
     public void initialize() {
         configurarColunas();
         carregarDados();
+
+        tblClients.setOnMouseClicked(event -> {
+           if(event.getClickCount() == 2 && tblClients.getSelectionModel().getSelectedItem() != null){
+               ClientModel clientSelecionado = tblClients.getSelectionModel().getSelectedItem();
+               handleEditar(clientSelecionado);
+           }
+        });
     }
 
     private void configurarColunas() {
@@ -165,6 +174,28 @@ public class ClientController {
             stage.show();
         } catch (IOException e) {
             System.err.println("Erro ao voltar:");
+            e.printStackTrace();
+        }
+    }
+
+    private void handleEditar(ClientModel client) {
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialog/edits/dialogEditClient.fxml"));
+            Parent root = loader.load();
+            DialogClientController dialogController = loader.getController();
+            dialogController.initClient(client);
+            Stage stage = new Stage();
+            stage.setTitle("Infinity Tech - Editar client");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            stage.showAndWait();
+
+            carregarDados();
+
+        } catch (IOException e) {
+            System.err.println("Erro ao abrir tela");
             e.printStackTrace();
         }
     }

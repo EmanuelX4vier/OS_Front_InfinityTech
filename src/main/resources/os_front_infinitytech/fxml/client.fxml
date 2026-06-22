@@ -63,15 +63,15 @@
                     <children>
                         <Button fx:id="btnClientAnterior" text="◀"
                                 onAction="#handleClientAnterior"
-                                styleClass="module-button"
-                                style="-fx-pref-width: 150px; -fx-background-color: rgba(85,85,85,0.5);" />
+                                styleClass="module-button, btn-square"
+                        />
 
                         <Label fx:id="lblClientPagina" text="Página: 1" styleClass="dashboard-subtitle" style="-fx-font-size: 14px; -fx-fill: white;" />
 
                         <Button fx:id="btnClientProxima" text="▶"
                                 onAction="#handleClientProxima"
-                                styleClass="module-button"
-                                style="-fx-pref-width: 150px;" />
+                                styleClass="module-button, btn-square"
+                        />
                     </children>
                 </HBox>
 

@@ -7,7 +7,7 @@
 
 <VBox spacing="20.0"
       styleClass="dialog-background, dialog-border"
-      stylesheets="@../../css/style.css"
+      stylesheets="@../../../css/style.css"
       xmlns="http://javafx.com/javafx/26"
       xmlns:fx="http://javafx.com/fxml/1"
       fx:controller="os.infinitytech.os_front_infinitytech.controller.dialog.DialogStockController">

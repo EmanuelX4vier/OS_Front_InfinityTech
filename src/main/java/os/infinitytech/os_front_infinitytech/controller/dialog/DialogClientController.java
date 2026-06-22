@@ -1,5 +1,6 @@
 package os.infinitytech.os_front_infinitytech.controller.dialog;
 
+import com.almasb.fxgl.net.Client;
 import javafx.application.Platform;
 import javafx.concurrent.Task;
 import javafx.fxml.FXML;
@@ -12,6 +13,7 @@ import os.infinitytech.os_front_infinitytech.service.ClientService;
 
 public class DialogClientController {
 
+    @FXML private TextField txtId;
     @FXML private TextField txtNome;
     @FXML private TextField txtTelefone;
     @FXML private TextField txtEndereco;
@@ -19,6 +21,18 @@ public class DialogClientController {
     @FXML private Label lblMensagem;
 
     private final ClientService clientService = new ClientService();
+    private ClientModel clientRecebido;
+
+    public void initClient(ClientModel client){
+        this.clientRecebido = client;
+
+        txtId.setText(client.getId().toString());
+        txtId.setDisable(true);
+
+        txtNome.setText(client.getNome());
+        txtTelefone.setText(client.getTelefone());
+        txtEndereco.setText(clientRecebido.getEndereco());
+    }
 
     // =========================
     // SALVAR CLIENT
@@ -84,6 +98,49 @@ public class DialogClientController {
     private void handleCancelar() {
 
         fecharJanela();
+    }
+
+    @FXML
+    private void handleApagar(){
+
+        fecharJanela();
+    }
+
+    @FXML
+    private void handleEditar(){
+        try {
+            if (this.clientRecebido == null) {
+                System.err.println("Nenhum cliente base encontrado para edição");
+                return;
+            }
+
+            ClientModel client = this.clientRecebido;
+
+            if (!txtNome.getText().trim().isEmpty()) {
+                client.setNome(txtNome.getText().trim());
+            }
+
+            if (!txtTelefone.getText().trim().isEmpty()) {
+                client.setTelefone(txtTelefone.getText().trim());
+            }
+
+            if (!txtEndereco.getText().trim().isEmpty()) {
+                client.setEndereco(txtEndereco.getText().trim());
+            }
+
+            new Thread(() -> {
+                try {
+                    clientService.atualizarClient(this.clientRecebido.getId(), client);
+                    Platform.runLater(this::fecharJanela);
+                } catch (Exception e) {
+                    System.err.println("Erro ao salvar cliente:");
+                    e.printStackTrace();
+                }
+            }).start();
+
+        } catch (RuntimeException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     // =========================
