@@ -91,7 +91,6 @@ public class LoginController {
 
     private void abrirTelaPrincipal() {
         try {
-            // AJUSTE: O caminho deve apontar para home.fxml, não para o login novamente
             String path = "/os_front_infinitytech/fxml/initial/home.fxml";
             URL fxmlLocation = getClass().getResource(path);
 
@@ -102,17 +101,14 @@ public class LoginController {
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             Parent root = loader.load();
 
-            // Pega o Stage atual a partir de qualquer elemento da tela (ex: campo de usuário)
+            // Obtém o Stage atual
             Stage stage = (Stage) emailField.getScene().getWindow();
 
-            // Define a nova cena (Home)
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            // Troca apenas o conteúdo da cena atual
+            stage.getScene().setRoot(root);
+
+            // Atualiza o título da janela
             stage.setTitle("Infinity Tech - Home");
-            stage.setMaximized(false);
-            stage.setMaximized(true);
-            stage.centerOnScreen();
-            stage.show();
 
         } catch (IOException e) {
             System.err.println("Erro ao carregar a tela Home: " + e.getMessage());

@@ -192,15 +192,12 @@ public class StockController {
             FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/initial/home.fxml"));
             Parent root = loader.load();
 
-            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
-            stage.setScene(new Scene(root));
+            // Obtém o Stage atual a partir do botão que disparou o evento
+            Button btnSource = (Button) event.getSource();
+            Stage stage = (Stage) btnSource.getScene().getWindow();
             stage.setTitle("Infinity Tech - Home");
+            stage.getScene().setRoot(root);
 
-            // 🔥 CORREÇÃO: Garante que ao voltar para a Home a tela continue cheia
-            stage.setMaximized(false);
-            stage.setMaximized(true);
-
-            stage.show();
         } catch (IOException e) {
             System.err.println("Erro ao voltar:");
             e.printStackTrace();

@@ -30,9 +30,6 @@ public class HomeController {
         carregarTela("/os_front_infinitytech/fxml/service.fxml", "Infinity Tech - Gerenciamento de Ordens", event);
     }
 
-    /**
-     * Método genérico para carregar novas telas
-     */
     private void carregarTela(String fxmlPath, String titulo, ActionEvent event) {
         try {
             URL fxmlLocation = getClass().getResource(fxmlPath);
@@ -44,25 +41,22 @@ public class HomeController {
             FXMLLoader loader = new FXMLLoader(fxmlLocation);
             Parent root = loader.load();
 
-            // Pega o Stage atual a partir do botão que disparou o evento
+            // Obtém o Stage atual a partir do botão que disparou o evento
             Button btnSource = (Button) event.getSource();
             Stage stage = (Stage) btnSource.getScene().getWindow();
 
-            // Define a nova cena
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
+            // Troca apenas o conteúdo da cena atual
+            stage.getScene().setRoot(root);
+
+            // Atualiza o título da janela
             stage.setTitle(titulo);
-
-            // 🔥 CORREÇÃO: Força a nova tela a se manter maximizada
-            stage.setMaximized(false); // Reseta o estado interno do JavaFX para garantir o gatilho
-            stage.setMaximized(true);  // Maximiza novamente de forma definitiva
-
-            stage.centerOnScreen();
-            stage.show();
 
         } catch (IOException e) {
             e.printStackTrace();
-            exibirAlerta("Erro de Navegação", "Não foi possível carregar a tela: " + e.getMessage());
+            exibirAlerta(
+                    "Erro de Navegação",
+                    "Não foi possível carregar a tela: " + e.getMessage()
+            );
         }
     }
 
