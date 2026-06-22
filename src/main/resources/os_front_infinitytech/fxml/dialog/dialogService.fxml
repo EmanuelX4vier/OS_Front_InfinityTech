@@ -50,6 +50,7 @@
                         <TextArea fx:id="txtDescricao" prefHeight="220" promptText="Detalhes do problema" styleClass="cyber-input, cyber-textarea" GridPane.columnIndex="1" GridPane.rowIndex="4" />
                     </children>
                 </GridPane>
+                <Label fx:id="lblMensagem" text="" textFill="WHITE" style="-fx-font-size: 12px; -fx-text-fill: #FFD700;" />
 
                 <HBox alignment="CENTER_RIGHT" spacing="15.0">
                     <children>
