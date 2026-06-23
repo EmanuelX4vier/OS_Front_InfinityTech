@@ -9,6 +9,7 @@ import os.infinitytech.os_front_infinitytech.auth.ApiClient;
 import os.infinitytech.os_front_infinitytech.model.ServiceModel;
 import os.infinitytech.os_front_infinitytech.model.ClientModel;
 import java.lang.reflect.Type;
+import java.security.Provider;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -70,5 +71,10 @@ public class ServiceService {
     public ServiceModel buscarPorSerial(String serial) throws Exception {
         String json = apiClient.get("/equips/" + serial);
         return gson.fromJson(json, ServiceModel.class);
+    }
+
+    public String atualizarService(String serial, ServiceModel service) throws Exception {
+        String json = gson.toJson(service);
+        return apiClient.patch("/equips/" + serial, json);
     }
 }

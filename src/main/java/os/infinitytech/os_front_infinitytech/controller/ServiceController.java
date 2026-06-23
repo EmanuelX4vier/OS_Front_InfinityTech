@@ -16,6 +16,9 @@ import javafx.scene.control.TableView;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
+import os.infinitytech.os_front_infinitytech.controller.dialog.DialogServiceController;
+import os.infinitytech.os_front_infinitytech.controller.dialog.DialogStockController;
+import os.infinitytech.os_front_infinitytech.model.ProduModel;
 import os.infinitytech.os_front_infinitytech.model.ServiceModel;
 import os.infinitytech.os_front_infinitytech.service.ServiceService;
 import os.infinitytech.os_front_infinitytech.service.ClientService;
@@ -26,21 +29,32 @@ import java.util.List;
 
 public class ServiceController {
 
-    @FXML private TableView<ServiceModel> tblOrdens;
-    @FXML private TableColumn<ServiceModel, String> colClientId;
-    @FXML private TableColumn<ServiceModel, String> colClient;
-    @FXML private TableColumn<ServiceModel, String> colSerial;
-    @FXML private TableColumn<ServiceModel, String> colDescricao;
-    @FXML private TableColumn<ServiceModel, String> colStatus;
-    @FXML private TableColumn<ServiceModel, String> colDataCadastro;
+    @FXML
+    private TableView<ServiceModel> tblOrdens;
+    @FXML
+    private TableColumn<ServiceModel, String> colClientId;
+    @FXML
+    private TableColumn<ServiceModel, String> colClient;
+    @FXML
+    private TableColumn<ServiceModel, String> colSerial;
+    @FXML
+    private TableColumn<ServiceModel, String> colDescricao;
+    @FXML
+    private TableColumn<ServiceModel, String> colStatus;
+    @FXML
+    private TableColumn<ServiceModel, String> colDataCadastro;
 
-    @FXML private Button btnOrdemAnterior;
-    @FXML private Button btnOrdemProxima;
-    @FXML private Label lblOrdemPagina;
+    @FXML
+    private Button btnOrdemAnterior;
+    @FXML
+    private Button btnOrdemProxima;
+    @FXML
+    private Label lblOrdemPagina;
 
     private final ObservableList<ServiceModel> listaOrdens = FXCollections.observableArrayList();
     private final ServiceService ordemService = new ServiceService();
     private final ClientService clientService = new ClientService(); // Necessário para o buscarOrdens do seu Service
+    private ServiceModel serviceRecebido;
 
     private int paginaAtual = 0;
 
@@ -48,6 +62,14 @@ public class ServiceController {
     public void initialize() {
         configurarColunas();
         carregarDados();
+
+        tblOrdens.setOnMouseClicked(event -> {
+            //Pega a contagem dos cliques | Verifica se o item da tabela está vazia.
+            if (event.getClickCount() == 2 && tblOrdens.getSelectionModel().getSelectedItem() != null) {
+                ServiceModel produtoSelecionado = tblOrdens.getSelectionModel().getSelectedItem();
+                handleEditar(serviceRecebido);
+            }
+        });
     }
 
     private void configurarColunas() {
@@ -172,6 +194,32 @@ public class ServiceController {
 
         } catch (IOException e) {
             System.err.println("Erro ao voltar:");
+            e.printStackTrace();
+        }
+    }
+
+    private void handleEditar(ServiceModel service){
+        try {
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/os_front_infinitytech/fxml/dialog/edits/dialogEditStock.fxml"));
+            Parent root = loader.load();
+
+            //Pega o controller da tela que vai receber produ.
+            DialogServiceController dialogController = loader.getController();
+            //Joga o produ nesse metodo dentro do controller pego.
+            dialogController.initService(service);
+
+            Stage stage = new Stage();
+            stage.setTitle("Infinity Tech - Editar serviço");
+            stage.initModality(Modality.APPLICATION_MODAL);
+            stage.setScene(new Scene(root));
+            stage.setResizable(false);
+
+            stage.showAndWait();
+
+            carregarDados();
+
+        } catch (IOException e) {
+            System.err.println("Erro ao abrir tela");
             e.printStackTrace();
         }
     }

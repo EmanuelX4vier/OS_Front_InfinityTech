@@ -6,33 +6,31 @@ import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import os.infinitytech.os_front_infinitytech.model.ProduModel;
 import os.infinitytech.os_front_infinitytech.model.ServiceModel;
 import os.infinitytech.os_front_infinitytech.model.ClientModel;
 import os.infinitytech.os_front_infinitytech.service.ServiceService;
 import os.infinitytech.os_front_infinitytech.service.ClientService;
+import os.infinitytech.os_front_infinitytech.types.Status;
+
+import java.math.BigDecimal;
 
 public class DialogServiceController {
 
     @FXML private TextField txtClientId;
     @FXML private TextField txtClientNome;
     @FXML private TextField txtSerial;
-    @FXML private ComboBox<String> cbStatus;
+    @FXML private ComboBox<Status> cbStatus;
     @FXML private TextArea txtDescricao;
     @FXML private Label lblMensagem;
 
-    private final ServiceService service = new ServiceService();
+    private final ServiceService serviceService = new ServiceService();
     private final ClientService clientService = new ClientService();
+    private ServiceModel serviceRecebido;
 
     @FXML
     public void initialize() {
-        cbStatus.getItems().addAll(
-                "ANDAMENTO",
-                "CONCLUIDO",
-                "AGUARDANDO",
-                "AUTORIZADO",
-                "DISPONIVEL",
-                "INDISPONIVEL"
-        );
+        cbStatus.getItems().addAll();
 
         // 🔥 MELHORIA: Bloqueia a edição manual do nome para forçar a busca via ID correto
         txtClientNome.setEditable(false);
@@ -43,6 +41,28 @@ public class DialogServiceController {
                 buscarClientePorId();
             }
         });
+    }
+
+    public void initService(ServiceModel service){
+        this.serviceRecebido = service;
+
+        txtClientId.setText(String.valueOf(serviceRecebido.getClientId()));
+        txtClientId.setDisable (true);
+
+        txtSerial.setText(service.getSerial());
+        txtDescricao.setText(service.getDescricao());
+        cbStatus.setValue(Status.valueOf(service.getStatus()));
+        txtClientNome.setText(service.getClientNome());
+
+        // Pré-seleciona o Status correto vindo do objeto
+        if (service.getStatus() != null) {
+            try {
+                Status statusEnum = Status.valueOf(service.getStatus().toUpperCase());
+                cbStatus.setValue(statusEnum);
+            } catch (IllegalArgumentException e) {
+                System.err.println("Status inválido retornado pela API: " + service.getStatus());
+            }
+        }
     }
 
     private void buscarClientePorId() {
@@ -93,7 +113,7 @@ public class DialogServiceController {
     private void handleSalvar() {
         // 🔥 CORREÇÃO: Validação de Segurança dos campos antes de rodar a Thread
         String idText = txtClientId.getText().trim();
-        String status = cbStatus.getValue();
+        Status status = cbStatus.getValue();
         String serial = txtSerial.getText().trim();
         String nomeCliente = txtClientNome.getText().trim();
 
@@ -122,10 +142,10 @@ public class DialogServiceController {
                 ordem.setClientId(clientId);
                 ordem.setSerial(serial);
                 ordem.setDescricao(txtDescricao.getText() != null ? txtDescricao.getText().trim() : "");
-                ordem.setStatus(status);
+                ordem.setStatus(String.valueOf(status));
                 ordem.setClientNome(nomeCliente);
 
-                service.criarOrdem(ordem);
+                serviceService.criarOrdem(ordem);
                 return null;
             }
         };
@@ -148,6 +168,45 @@ public class DialogServiceController {
         Thread thread = new Thread(task);
         thread.setDaemon(true);
         thread.start();
+    }
+
+    @FXML
+    private void handleEditar(){
+        try {
+            if (this.serviceRecebido == null) {
+                System.err.println("Nenhum produto base encontrado para edição.");
+                return;
+            }
+
+            ServiceModel service = this.serviceRecebido;
+
+            if(!txtDescricao.getText().trim().isEmpty()){
+                service.setDescricao(service.getDescricao());
+            }
+
+            if(cbStatus.getValue() != null){
+                service.setStatus(String.valueOf(cbStatus.getValue()));
+            }
+
+            if(!txtClientNome.getText().trim().isEmpty()){
+                service.setClientNome(service.getClientNome());
+            }
+
+
+            new Thread(() -> {
+                try {
+                    serviceService.atualizarService(this.serviceRecebido.getSerial(), service);
+                    Platform.runLater(this::fechar);
+                } catch (Exception e) {
+                    System.err.println("Erro ao salvar produto:");
+                    e.printStackTrace();
+                }
+            }).start();
+
+        } catch (Exception e) {
+            System.err.println("Erro na validação dos dados:");
+            e.printStackTrace();
+        }
     }
 
     @FXML
